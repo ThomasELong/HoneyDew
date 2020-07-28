@@ -1,0 +1,5 @@
+﻿ALTER TABLE Project 
+ALTER COLUMN createdDate date NOT NULL
+
+ALTER TABLE TaskNote
+ALTER COLUMN createdDate date NOT NULL
