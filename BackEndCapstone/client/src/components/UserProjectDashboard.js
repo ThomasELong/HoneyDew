@@ -1,24 +1,36 @@
-import React, { useContext, useEffect } from "react";
-import { PostContext } from "../providers/PostProvider";
-import { Post } from "./Post";
+import React, { useContext, useEffect } from "react"
+import { ProjectContext } from "../providers/ProjectProvider";
+import Project from "./ProjectOption";
+import {CardColumns, Button} from "reactstrap"
+import { useHistory, Route, Link } from "react-router-dom";
 
-export const PostList = () => {
-
-    const { posts, getAllPosts } = useContext(PostContext);
+const UserDashboard = () => {
+    const { projects, getAllProjects, getProjectsByUser} = useContext(ProjectContext);
+    const history = useHistory();
 
     useEffect(() => {
-        getAllPosts();
-    }, []);
+        getProjectsByUser();
+      }, []);
+
+    const handleClick = () => {
+        history.push(`/addProject`);
+    }
 
     return (
-        <div className="container">
-            <div className="row justify-content-center">
-                <div className="cards-column">
-                    {posts.map((post) => (
-                        <Post key={post.id} post={post} />
-                    ))}
+        <>
+            <section>
+                <div className="nothingrightnow">
+                    <Link color="info" size="lg" to="/newProjectForm">Add New Project</Link>
                 </div>
-            </div>
-        </div>
-    );
-};
+                    {
+                        projects.map((project) => (
+                            <Link key={project.id} to={`/project/${project.id}`}><strong> {project.name}</strong></Link>
+                        ))
+                        
+                    }
+            </section>
+        </>
+    )
+}
+
+export default UserDashboard

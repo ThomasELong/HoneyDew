@@ -9,7 +9,7 @@ export const ProjectProvider = (props) => {
 
   const { getToken } = useContext(UserProfileContext);
 
-  const getAllProjects = () =>
+  const getAllProjects = () => {
     getToken().then((token) =>
       fetch(apiUrl, {
         method: "GET",
@@ -17,33 +17,33 @@ export const ProjectProvider = (props) => {
           Authorization: `Bearer ${token}`,
         },
       })
-        .then((resp) => resp.json())
+        .then(resp => resp.json())
         .then(setProjects)
-    );
+    )};
 
   const getProjectById = (id) =>
     getToken().then((token) =>
-      fetch(`/api/post/${id}`, {
+      fetch(`/api/project/${id}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }).then((res) => res.json())
     );
-
-
-    const addProjectId = (project) => {
-      console.log(project);
-      return fetch("/api/project", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(project),
-      })
+    
+    const getProjectsByUser = () => {
+      getToken().then((token) =>
+        fetch(`${apiUrl}/getbyuser`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((resp) => resp.json())
+          .then(setProjects)
+      );
     };
-    
-    
+
   const addProject = (project) =>
     getToken().then((token) =>
       fetch(apiUrl, {
@@ -58,18 +58,6 @@ export const ProjectProvider = (props) => {
       })
     );
 
-  const getProjectsByUser = () => {
-    getToken().then((token) =>
-      fetch(`${apiUrl}/getbyuser`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((resp) => resp.json())
-        .then(setProjects)
-    );
-  };
 
   const updateProject = (project) =>
     getToken().then((token) =>

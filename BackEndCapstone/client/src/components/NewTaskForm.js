@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { TaskContext } from "../providers/CommentProvider";
 import { ProjectContext } from "../providers/ProjectProvider";
-import { RoomContext } from "../providers/RoomProvider";
 import { TaskCategoryContext } from "../providers/TaskCategoryProvider";
 
 
@@ -19,7 +18,6 @@ export default function NewTaskForm() {
   const taskComplete = useRef('taskComplete')
   const taskCategoryId = useRef('taskCategoryId')
   const projectId = useRef('projectId')
-  const roomId = useRef('roomId')
 
   const submitTaskForm = (e) => {
     e.preventDefault();
@@ -32,14 +30,14 @@ export default function NewTaskForm() {
     } else if (!taskComplete) {
         window.alert("Please ");
     } else if (!taskCategoryId) {
-        window.alert("Please select a category");else {
+        window.alert("Please select a category");
+    } else {
       const NewTask = {
         taskTitle: taskTitle.current.value,
         taskPriority: taskPriority.current.value,
         taskComplete: taskPriority.current.value,
         taskCategoryId: parseInt(taskCategoryId.current.value),
         projectId: parseInt(projectId.current.value),
-        roomId: parseInt(roomId.current.value),
         createdDate: new Date(),
       };
       addTask(NewTask)
@@ -49,7 +47,7 @@ export default function NewTaskForm() {
   };
 
   return (
-    <Form onSubmit={submitForm}>
+    <Form onSubmit={submitTaskForm}>
       <FormGroup>
 
         <Label for="taskTitle">Title</Label>

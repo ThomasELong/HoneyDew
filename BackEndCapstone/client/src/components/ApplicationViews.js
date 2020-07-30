@@ -3,6 +3,9 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import Login from "./Login";
 import Register from "./Register";
+import NewProjectForm from "./NewProjectForm";
+import UserDashboard from "./UserProjectDashboard";
+import ProjectDetails from "./ProjectDetails";
 
 export default function ApplicationViews() {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -11,12 +14,21 @@ export default function ApplicationViews() {
     <main>
       <Switch>
         <Route path="/" exact>
-          {isLoggedIn ? <p>Hello logged in User!</p> : <Redirect to="/login" />}
+            {isLoggedIn ? <UserDashboard /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/newProjectForm" exact>
+            {isLoggedIn ? <NewProjectForm /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/project/:id" exact>
+            {isLoggedIn ? <ProjectDetails /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/login">
           <Login />
         </Route>
+
 
         <Route path="/register">
           <Register />

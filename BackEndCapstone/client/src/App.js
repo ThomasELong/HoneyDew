@@ -3,8 +3,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import ApplicationViews from './components/ApplicationViews';
 import { UserProfileProvider } from './providers/UserProfileProvider';
 import { ProjectProvider } from './providers/ProjectProvider';
-import { RoomProvider } from './providers/RoomProvider';
-import NewProjectForm from './components/NewProjectForm';
+import Header from './components/Header';
 
 
 function App() {
@@ -13,11 +12,9 @@ function App() {
    <Router>
       <UserProfileProvider>
         <ProjectProvider>
-          <RoomProvider>
+          <Header />
           <ApplicationViews />
-          <NewProjectForm />
-          </RoomProvider>
-          </ProjectProvider>
+        </ProjectProvider>
       </UserProfileProvider>
     </Router>
     </div>
