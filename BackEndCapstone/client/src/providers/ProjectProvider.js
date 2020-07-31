@@ -21,16 +21,17 @@ export const ProjectProvider = (props) => {
         .then(setProjects)
     )};
 
-  const getProjectById = (id) =>
-    getToken().then((token) =>
-      fetch(`/api/project/${id}`, {
+  const getProjectById = (id) => {
+   return getToken().then((token) =>
+      fetch(`${apiUrl}/${id}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }).then((res) => res.json())
+      }).then((resp) => resp.json())
     );
-    
+    }; 
+
     const getProjectsByUser = () => {
       getToken().then((token) =>
         fetch(`${apiUrl}/getbyuser`, {
@@ -79,7 +80,7 @@ export const ProjectProvider = (props) => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-      }).then(getAllProjects)
+      }).then(getProjectsByUser)
     );
   };
 

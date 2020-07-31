@@ -11,3 +11,28 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.dashboardContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.addNewProjectLink {
+  font-size: 25pt;
+  margin: 1 0 1 0;
+}
+
+.existingProjectsContainer {
+display: flex;
+flex-flow: row wrap;
+justify-content: center;
+}
+
+.existingProjects {
+  border: 1px solid black;
+  display: flex;
+  width: 45%;
+  justify-content: center;
+  margin: .5em
+}

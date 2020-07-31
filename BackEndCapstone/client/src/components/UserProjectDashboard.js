@@ -1,33 +1,29 @@
 import React, { useContext, useEffect } from "react"
 import { ProjectContext } from "../providers/ProjectProvider";
-import Project from "./ProjectOption";
-import {CardColumns, Button} from "reactstrap"
-import { useHistory, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Button} from "reactstrap";
 
 const UserDashboard = () => {
-    const { projects, getAllProjects, getProjectsByUser} = useContext(ProjectContext);
-    const history = useHistory();
+    const { projects, getProjectsByUser} = useContext(ProjectContext);
 
     useEffect(() => {
         getProjectsByUser();
       }, []);
 
-    const handleClick = () => {
-        history.push(`/addProject`);
-    }
-
     return (
         <>
-            <section>
-                <div className="nothingrightnow">
-                    <Link color="info" size="lg" to="/newProjectForm">Add New Project</Link>
+            <section className="dashboardContainer">
+                <div className="addNewProjectLink">
+                    <Button tag={Link} color="info" size="lg" to="/newProjectForm">Add New Project</Button>
                 </div>
-                    {
+                <div className="existingProjectsContainer">
+                   { 
                         projects.map((project) => (
-                            <Link key={project.id} to={`/project/${project.id}`}><strong> {project.name}</strong></Link>
+                            <Button tag={Link} className="existingProjects" key={project.id} to={`/project/${project.id}`}><strong> {project.name}</strong></Button>
                         ))
-                        
-                    }
+                        }    
+                    
+                </div>
             </section>
         </>
     )

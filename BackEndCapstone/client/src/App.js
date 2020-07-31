@@ -4,6 +4,7 @@ import ApplicationViews from './components/ApplicationViews';
 import { UserProfileProvider } from './providers/UserProfileProvider';
 import { ProjectProvider } from './providers/ProjectProvider';
 import Header from './components/Header';
+import { TaskProvider } from './providers/TaskProvider';
 
 
 function App() {
@@ -12,8 +13,10 @@ function App() {
    <Router>
       <UserProfileProvider>
         <ProjectProvider>
+          <TaskProvider>
           <Header />
           <ApplicationViews />
+          </TaskProvider>
         </ProjectProvider>
       </UserProfileProvider>
     </Router>
@@ -22,3 +25,4 @@ function App() {
 }
 
 export default App;
+
