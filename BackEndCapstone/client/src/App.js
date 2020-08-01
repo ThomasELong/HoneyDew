@@ -5,6 +5,7 @@ import { UserProfileProvider } from './providers/UserProfileProvider';
 import { ProjectProvider } from './providers/ProjectProvider';
 import Header from './components/Header';
 import { TaskProvider } from './providers/TaskProvider';
+import { TaskCategoryProvider } from './providers/TaskCategoryProvider';
 
 
 function App() {
@@ -13,10 +14,12 @@ function App() {
    <Router>
       <UserProfileProvider>
         <ProjectProvider>
+            <TaskCategoryProvider>
           <TaskProvider>
           <Header />
           <ApplicationViews />
           </TaskProvider>
+          </TaskCategoryProvider>
         </ProjectProvider>
       </UserProfileProvider>
     </Router>

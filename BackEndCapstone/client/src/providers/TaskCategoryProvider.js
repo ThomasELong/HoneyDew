@@ -6,7 +6,7 @@ export const TaskCategoryContext = React.createContext();
 export const TaskCategoryProvider = (props) => {
 
   const apiUrl = "/api/taskcategory";
-  const [taskcategories, setTaskCategories] = useState([]);
+  const [taskCategories, setTaskCategories] = useState([]);
 
   const { getToken } = useContext(UserProfileContext);
 
@@ -18,12 +18,13 @@ export const TaskCategoryProvider = (props) => {
           Authorization: `Bearer ${token}`
         }
       }).then(resp => resp.json())
-        .then(setTaskCategories));
+        .then(setTaskCategories))
+        .then(console.log(taskCategories));
   }
 
   const getTaskCategoryById = (id) =>
     getToken().then((token) =>
-      fetch(`/api/category/${id}`, {
+      fetch(`/api/taskcategory/${id}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`
@@ -32,7 +33,7 @@ export const TaskCategoryProvider = (props) => {
 
     
   return (
-    <TaskCategoryContext.Provider value={{ taskcategories, getAllTaskCategories, getTaskCategoryById }}>
+    <TaskCategoryContext.Provider value={{ taskCategories, getAllTaskCategories, getTaskCategoryById }}>
       {props.children}
     </TaskCategoryContext.Provider>
   );

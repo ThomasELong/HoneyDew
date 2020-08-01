@@ -1,15 +1,15 @@
-import React, { useState, useContext } from "react";
-import { useParams } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import React, { useState, useContext, useRef, Selection, Option } from "react";
+import { useParams, useHistory } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { TaskContext } from "../providers/CommentProvider";
+import { TaskContext } from "../providers/TaskProvider";
 import { ProjectContext } from "../providers/ProjectProvider";
 import { TaskCategoryContext } from "../providers/TaskCategoryProvider";
 
 
-export default function NewTaskForm() {
+const NewTaskForm = () => {
   const history = useHistory();
   const { addTask } = useContext(TaskContext);
+  const [ content, setContent ] = useState()
 
   const { id } = useParams();
   
@@ -93,3 +93,5 @@ export default function NewTaskForm() {
     </Form>
   );
 }
+
+export default NewTaskForm;
