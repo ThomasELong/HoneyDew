@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { ProjectContext } from "../providers/ProjectProvider";
+import { ProjectContext } from "../../providers/ProjectProvider";
 
 export default function NewProjectForm() {
   const history = useHistory();

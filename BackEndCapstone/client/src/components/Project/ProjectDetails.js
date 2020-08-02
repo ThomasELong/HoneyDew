@@ -1,9 +1,9 @@
 import React, { useEffect, useContext, useState } from "react";
 import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from "reactstrap";
 import { useParams, useHistory, Link } from "react-router-dom";
-import { ProjectContext } from "../providers/ProjectProvider";
-import { TaskContext } from "../providers/TaskProvider"
-import { TaskCategoryProvider, TaskCategoryContext } from "../providers/TaskCategoryProvider";
+import { ProjectContext } from "../../providers/ProjectProvider";
+import { TaskContext } from "../../providers/TaskProvider"
+import { TaskCategoryProvider, TaskCategoryContext } from "../../providers/TaskCategoryProvider";
 
 
 const ProjectDetails = () => {
@@ -87,7 +87,6 @@ const ProjectDetails = () => {
                 <ModalHeader>{project.name}</ModalHeader>
                 <ModalBody>
                     <div className="form-group">
-                        <label htmlFor="taskTitle">Task Title</label>
                         <input
                             type="text-area"
                             id="taskTitle"
@@ -95,6 +94,7 @@ const ProjectDetails = () => {
                             required
                             autoFocus
                             className="form-control mt-4"
+                            defaultValue={"Task Title"}
                         />
                         <ButtonDropdown isOpen={taskCategoryDropdown} toggle={toggleTaskCategoryDropdown}>
                             <DropdownToggle caret>Category</DropdownToggle>
@@ -104,7 +104,6 @@ const ProjectDetails = () => {
                             </DropdownMenu>
                         </ButtonDropdown>
 
-                        <label htmlFor="projectNote">Project Notes </label>
                         <input
                             type="text-area"
                             id="projectNote"
@@ -112,7 +111,7 @@ const ProjectDetails = () => {
                             required
                             autoFocus
                             className="form-control mt-4"
-                            defaultValue={project.projectNote}
+                            defaultValue={"Can't remember what this is..."}
                         />
 
                         <div className="">

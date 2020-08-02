@@ -6,23 +6,26 @@ import { ProjectProvider } from './providers/ProjectProvider';
 import Header from './components/Header';
 import { TaskProvider } from './providers/TaskProvider';
 import { TaskCategoryProvider } from './providers/TaskCategoryProvider';
+import { TaskNoteProvider } from './providers/TaskNoteProvider';
 
 
 function App() {
   return (
     <div className="App">
-   <Router>
-      <UserProfileProvider>
-        <ProjectProvider>
+      <Router>
+        <UserProfileProvider>
+          <ProjectProvider>
             <TaskCategoryProvider>
-          <TaskProvider>
-          <Header />
-          <ApplicationViews />
-          </TaskProvider>
-          </TaskCategoryProvider>
-        </ProjectProvider>
-      </UserProfileProvider>
-    </Router>
+              <TaskProvider>
+                <TaskNoteProvider>
+                  <Header />
+                  <ApplicationViews />
+                </TaskNoteProvider>
+              </TaskProvider>
+            </TaskCategoryProvider>
+          </ProjectProvider>
+        </UserProfileProvider>
+      </Router>
     </div>
   );
 }

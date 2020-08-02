@@ -3,10 +3,10 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import Login from "./Login";
 import Register from "./Register";
-import NewProjectForm from "./NewProjectForm";
+import NewProjectForm from "./Project/NewProjectForm";
 import UserDashboard from "./UserProjectDashboard";
-import ProjectDetails from "./ProjectDetails";
-import TaskDetails from "./TaskDetails"
+import ProjectDetails from "./Project/ProjectDetails";
+import TaskDetails from "./Task/TaskDetails"
 
 
 export default function ApplicationViews() {

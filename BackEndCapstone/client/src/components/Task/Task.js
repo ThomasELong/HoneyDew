@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Card, Modal, ModalBody, Button } from "reactstrap";
 import { Link } from "react-router-dom";
-import { TaskContext } from "../providers/TaskProvider";
+import { TaskContext } from "../../providers/TaskProvider";
 
 //using the Card component that comes with reactstrap to organize some of the post details
 const Task = ({ task }) => {

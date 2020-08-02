@@ -12,26 +12,25 @@ export const TaskNoteProvider = (props) => {
 
   const getTaskNote = (id) => {
     return getToken().then((token) =>
-        fetch(apiUrl + `/${id}`, {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }).then(resp => resp.json()));
-};
+      fetch(apiUrl + `/${id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then(resp => resp.json()));
+  };
 
-
-      const getTaskNotesByTaskId = (id) =>
-      getToken().then((token) =>
-        fetch(apiUrl + `/getbytaskid/${id}`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-          .then((res) => res.json())
-          .then((res) =>setTaskNotes(res))
-      );
+  const getTaskNotesByTaskId = (id) => 
+   getToken().then((token) =>
+      fetch(`${apiUrl}/getbytaskid/${id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => setTaskNotes(res))
+    );
 
   const getAllTaskNotes = () =>
     getToken().then((token) =>
@@ -64,26 +63,26 @@ export const TaskNoteProvider = (props) => {
         body: JSON.stringify(tasknote)
       }));
 
-      const updateTaskNote = (tasknote) =>
-      getToken().then((token) =>
-        fetch(`${apiUrl}/${tasknote.id}`, {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(tasknote),
-        }).then(getTask(tasknote.id))
-      );
+  const updateTaskNote = (tasknote) =>
+    getToken().then((token) =>
+      fetch(`${apiUrl}/${tasknote.id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(tasknote),
+      }).then(getTaskNote(tasknote.id))
+    );
 
-  
- 
+
+
 
 
 
 
   return (
-    <TaskNoteContext.Provider value={{ tasknotes, getTaskNoteById, addTaskNote, getAllTaskNotes, getTaskNotesByTaskId, updateTaskNote }}> 
+    <TaskNoteContext.Provider value={{ tasknotes, getTaskNoteById, addTaskNote, getAllTaskNotes, getTaskNotesByTaskId, updateTaskNote }}>
       {props.children}
     </TaskNoteContext.Provider>
   );

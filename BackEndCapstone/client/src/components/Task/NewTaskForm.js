@@ -1,9 +1,9 @@
 import React, { useState, useContext, useRef, Selection, Option } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { TaskContext } from "../providers/TaskProvider";
-import { ProjectContext } from "../providers/ProjectProvider";
-import { TaskCategoryContext } from "../providers/TaskCategoryProvider";
+import { TaskContext } from "../../providers/TaskProvider";
+import { ProjectContext } from "../../providers/ProjectProvider";
+import { TaskCategoryContext } from "../../providers/TaskCategoryProvider";
 
 
 const NewTaskForm = () => {

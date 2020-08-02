@@ -1,13 +1,15 @@
 import React, { useEffect, useContext, useState } from "react";
 import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody } from "reactstrap";
 import { useParams, useHistory, Link } from "react-router-dom";
-import { ProjectContext } from "../providers/ProjectProvider";
-import { TaskContext } from "../providers/TaskProvider"
+import { ProjectContext } from "../../providers/ProjectProvider";
+import { TaskContext } from "../../providers/TaskProvider"
+import { TaskNoteContext } from "../../providers/TaskNoteProvider";
 
 
 const TaskDetails = () => {
   const { getProjectById } = useContext(ProjectContext);
   const { getTask, deleteTask, updateTask, addTask } = useContext(TaskContext)
+  const { tasknotes, getTaskNotesByTaskId } = useContext(TaskNoteContext)
   const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
   const { id } = useParams();
   const [editModal, setEditModal] = useState(false);
@@ -21,13 +23,15 @@ const TaskDetails = () => {
   const history = useHistory();
   
   useEffect(() => {
+    getTaskNotesByTaskId()
+    console.log(tasknotes)
+  }, []);
+
+  useEffect(() => {
       getTask(id)
-      .then(setTask);
-      console.log(task);
+      .then(setTask)
       }, []);
     
-console.log(task.taskTitle)
-
     const toggleEdit = () => {
     setEditModal(!editModal);
   };
@@ -53,6 +57,13 @@ console.log(task.taskTitle)
         <div>
           <h3>{task.taskTitle}</h3>
           <div>{task.taskPriority}</div>
+         {/*  <div>
+            {tasknotes.map((tasknote) => (
+              <div>
+                <Button tag={Link} key={tasknote.id} color="info" size="md">{tasknote.title}</Button>
+              </div>
+            ))}
+          </div> */}
         </div>
           <Button onClick={toggleEdit}>Edit</Button>
           <Button onClick={toggleDelete}>Delete</Button>
