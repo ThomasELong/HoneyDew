@@ -11,8 +11,5 @@ namespace BackEndCapstone.Models
         public int id { get; set; }
         [Required]
         public string name { get; set; }
-        [Required]
-        public int projectId { get; set; }
-        public Project project { get; set; }
     }
 }

@@ -8,10 +8,6 @@ namespace BackEndCapstone.Models
 {
     public class Task
     {
-        public int id { get; set; }
-        [Required]
-        public int roomId { get; set; }
-        public Room room { get; set; }
         [Required]
         public string taskTitle { get; set; }
         [Required]
@@ -19,7 +15,11 @@ namespace BackEndCapstone.Models
         [Required]
         public bool taskComplete { get; set; }
         [Required]
+        public int projectId { get; set; }
+        public Project project { get; set; }
+        [Required]
         public int taskCategoryId { get; set; }
         public TaskCategory taskCategory { get; set; }
+        public int id { get; set; }
     }
 }

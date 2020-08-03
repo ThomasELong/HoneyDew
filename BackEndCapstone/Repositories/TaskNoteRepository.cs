@@ -1,10 +1,8 @@
 ﻿using BackEndCapstone.Data;
 using BackEndCapstone.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BackEndCapstone.Repositories
 {
@@ -12,20 +10,26 @@ namespace BackEndCapstone.Repositories
     {
         private readonly ApplicationDbContext _context;
 
-
-
         public TaskNoteRepository(ApplicationDbContext context)
         {
             _context = context;
         }
         public List<TaskNote> GetAll()
         {
-            var All = _context.TaskNote.OrderBy(tn => tn.timestamp).ToList();
+            var All = _context.TaskNote.OrderBy(tn => tn.createdDate).ToList();
             return All;
         }
         public TaskNote GetById(int id)
         {
             return _context.TaskNote.FirstOrDefault(tn => tn.id == id);
+        }
+
+        public List<TaskNote> GetTaskNotesByTaskId(int id)
+        {
+            return _context.TaskNote
+                .Where(tn => tn.taskId == id)
+                .OrderByDescending(tn => tn.createdDate)
+                .ToList();
         }
 
         public void Add(TaskNote tasknote)

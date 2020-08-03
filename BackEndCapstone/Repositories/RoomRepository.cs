@@ -19,24 +19,16 @@ namespace BackEndCapstone.Repositories
 
         public List<Room> GetAll()
         {
-            return _context.Room
-                .Include(r => r.projectId)
-                .ToList();
+            var All = _context.Room.OrderBy(r => r.name).ToList();
+            return All;
         }
 
         public Room GetById(int id)
         {
             return _context.Room
-                .Include(r => r.projectId)
                 .FirstOrDefault(r => r.id == id);
         }
 
-        public Room GetByProject(Project project)
-        {
-            return _context.Room
-                .Include(r => r.projectId)
-                .FirstOrDefault(r => r.projectId == project.Id);
-        }
         public void Add(Room room)
         {
             _context.Add(room);

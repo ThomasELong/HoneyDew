@@ -27,7 +27,6 @@ namespace BackEndCapstone.Controllers
             _projectRepository = new ProjectRepository(context);
         }
 
-        [Authorize]
         [HttpGet]
         public IActionResult Get()
         {
@@ -44,12 +43,6 @@ namespace BackEndCapstone.Controllers
                 return NotFound();
             }
             return Ok(room);
-        }
-
-        [HttpGet("getbyuser")]
-        public IActionResult GetRoomByProject(Project project)
-        {
-            return Ok(_roomRepository.GetByProject(project));
         }
 
         [HttpDelete("{id}")]

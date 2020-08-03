@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BackEndCapstone.Repositories
 {
@@ -19,7 +18,7 @@ namespace BackEndCapstone.Repositories
         public List<Project> GetAll()
         {
             var All = _context.Project.Include(p => p.userProfileId)
-                                   .OrderByDescending(p => p.timestamp)
+                                   .OrderByDescending(p => p.createdDate)
                                    .ToList();
             return All;
         }
@@ -32,14 +31,25 @@ namespace BackEndCapstone.Repositories
 
         public Project GetById(int id)
         {
-            return _context.Project.FirstOrDefault(p => p.Id == id);
+            return _context.Project
+                .FirstOrDefault(p => p.id == id);
         }
+
+
         public List<Project> GetByFirebaseUserId(string id)
         {
             return _context.Project.Include(p => p.userProfile)
                 .Where(p => p.userProfile.FirebaseUserId == id)
-                .OrderBy(p => p.timestamp)
+                .OrderBy(p => p.createdDate)
                 .ToList();
+        }
+
+        public List<Project> GetByUserProfileId(int id)
+        {
+            return _context.Project
+                            .Include(p => p.userProfile)
+                            .Where(p => p.userProfileId == id)
+                            .OrderByDescending(p => p.createdDate).ToList();
         }
 
         public void Update(Project project)
@@ -52,8 +62,6 @@ namespace BackEndCapstone.Repositories
         public void Delete(int id)
         {
             var project = GetById(id);
-
-
             _context.Project.Remove(project);
             _context.SaveChanges();
         }

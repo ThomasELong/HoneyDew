@@ -1,7 +1,6 @@
 ﻿using BackEndCapstone.Data;
 using BackEndCapstone.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,16 +18,23 @@ namespace BackEndCapstone.Repositories
         public List<Task> GetAll()
         {
             return _context.Task
-                .Include(t => t.roomId)
                 .ToList();
         }
 
         public Task GetById(int id)
         {
             return _context.Task
-                .Include(t => t.roomId)
                 .FirstOrDefault(t => t.id == id);
         }
+
+        public List<Task> GetTasksByProject(int id)
+        {
+            return _context.Task
+                .Where(t => t.projectId == id)
+                .OrderByDescending(t => t.taskPriority)
+                .ToList();
+        }
+
         public void Add(Task task)
         {
             _context.Add(task);
@@ -47,5 +53,6 @@ namespace BackEndCapstone.Repositories
             _context.Entry(task).State = EntityState.Modified;
             _context.SaveChanges();
         }
+        
     }
 }
