@@ -1,9 +1,9 @@
 import React, { useEffect, useContext, useState } from "react";
-import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from "reactstrap";
+import { Button, Modal, ModalHeader, ModalBody, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from "reactstrap";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { ProjectContext } from "../../providers/ProjectProvider";
 import { TaskContext } from "../../providers/TaskProvider"
-import { TaskCategoryProvider, TaskCategoryContext } from "../../providers/TaskCategoryProvider";
+import { TaskCategoryContext } from "../../providers/TaskCategoryProvider";
 
 
 const ProjectDetails = () => {

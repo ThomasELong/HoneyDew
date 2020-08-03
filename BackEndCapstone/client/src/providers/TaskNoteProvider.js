@@ -22,7 +22,7 @@ export const TaskNoteProvider = (props) => {
 
   const getTaskNotesByTaskId = (id) => 
    getToken().then((token) =>
-      fetch(`${apiUrl}/getbytaskid/${id}`, {
+      fetch(apiUrl+`/getbytaskid/${id}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -30,6 +30,7 @@ export const TaskNoteProvider = (props) => {
       })
         .then((res) => res.json())
         .then((res) => setTaskNotes(res))
+        .then(console.log(tasknotes))
     );
 
   const getAllTaskNotes = () =>

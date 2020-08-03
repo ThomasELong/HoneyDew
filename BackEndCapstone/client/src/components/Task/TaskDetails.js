@@ -9,27 +9,24 @@ import { TaskNoteContext } from "../../providers/TaskNoteProvider";
 const TaskDetails = () => {
   const { getProjectById } = useContext(ProjectContext);
   const { getTask, deleteTask, updateTask, addTask } = useContext(TaskContext)
-  const { tasknotes, getTaskNotesByTaskId } = useContext(TaskNoteContext)
+  const { getTaskNotesByTaskId } = useContext(TaskNoteContext)
   const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
   const { id } = useParams();
-  const [editModal, setEditModal] = useState(false);
-  const [deleteModal, setDeleteModal] = useState(false);
-  const [addTaskModal, setAddTaskModal] = useState(false);
-  const [project, setProject] = useState({});
-  const [taskTitle, setTaskTitle] = useState();
-  const [taskPriority, setTaskPriority] = useState()
-  const [taskComplete, setTaskComplete] = useState();
-  const [task, setTask] = useState({})
+  const [ editModal, setEditModal] = useState(false);
+  const [ deleteModal, setDeleteModal] = useState(false);
+  const [ addTaskModal, setAddTaskModal] = useState(false);
+  const [ project, setProject] = useState({});
+  const [ taskTitle, setTaskTitle] = useState();
+  const [ taskPriority, setTaskPriority] = useState()
+  const [ taskComplete, setTaskComplete] = useState();
+  const [ task, setTask] = useState({})
+  const [ taskNotes, setTaskNotes] = useState([])
   const history = useHistory();
   
-  useEffect(() => {
-    getTaskNotesByTaskId()
-    console.log(tasknotes)
-  }, []);
 
   useEffect(() => {
       getTask(id)
-      .then(setTask)
+      .then(setTask);
       }, []);
     
     const toggleEdit = () => {
@@ -39,6 +36,10 @@ const TaskDetails = () => {
   const toggleDelete = () => {
     setDeleteModal(!deleteModal);
   };
+  
+useEffect(() => {
+  console.log(taskNotes)
+}, [setTaskNotes]);
 
   const submitForm = () => {
     updateTask({
@@ -57,13 +58,13 @@ const TaskDetails = () => {
         <div>
           <h3>{task.taskTitle}</h3>
           <div>{task.taskPriority}</div>
-         {/*  <div>
-            {tasknotes.map((tasknote) => (
+          <div>
+            {taskNotes.map((tasknote) => (
               <div>
-                <Button tag={Link} key={tasknote.id} color="info" size="md">{tasknote.title}</Button>
+                <Button onClick={getTaskNotesByTaskId(id).then(setTaskNotes)} key={tasknote.id} color="info" size="md">{tasknote.title}</Button>
               </div>
             ))}
-          </div> */}
+          </div>
         </div>
           <Button onClick={toggleEdit}>Edit</Button>
           <Button onClick={toggleDelete}>Delete</Button>
@@ -155,3 +156,8 @@ const TaskDetails = () => {
 
 
 export default TaskDetails;
+
+
+
+
+

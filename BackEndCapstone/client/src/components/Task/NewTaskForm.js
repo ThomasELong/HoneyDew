@@ -35,7 +35,7 @@ const NewTaskForm = () => {
       const NewTask = {
         taskTitle: taskTitle.current.value,
         taskPriority: taskPriority.current.value,
-        taskComplete: taskPriority.current.value,
+        taskComplete: 0,
         taskCategoryId: parseInt(taskCategoryId.current.value),
         projectId: parseInt(projectId.current.value),
         createdDate: new Date(),

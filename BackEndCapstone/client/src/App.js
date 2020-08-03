@@ -14,16 +14,16 @@ function App() {
     <div className="App">
       <Router>
         <UserProfileProvider>
+              <TaskProvider>
           <ProjectProvider>
             <TaskCategoryProvider>
-              <TaskProvider>
                 <TaskNoteProvider>
                   <Header />
                   <ApplicationViews />
                 </TaskNoteProvider>
-              </TaskProvider>
             </TaskCategoryProvider>
           </ProjectProvider>
+              </TaskProvider>
         </UserProfileProvider>
       </Router>
     </div>
