@@ -16,7 +16,8 @@ export const NewProjectForm = () => {
   const [taskCategoryDropdown, setTaskCategoryDropdown] = useState(false);
   const [addTaskModal, setAddTaskModal] = useState(false);
   const [taskCategory, setTaskCategory] = useState({});
-  const [ taskPriority, setTaskPriority ] = useState();
+  const [taskPriority, setTaskPriority] = useState();
+  const [ currentProjectTasks, setCurrentProjectTasks] = useState();
   const { id } = useParams();
 
   const userProfile = JSON.parse(sessionStorage.getItem("userProfile"));
@@ -53,16 +54,7 @@ export const NewProjectForm = () => {
         createdDate: new Date(),
         userProfileId: userProfile.id
       };
-      const NewTask = {
-        taskTitle: taskTitle.current.value,
-        taskPriority: taskPriority.current.value,
-        taskComplete: 0,
-        taskCategoryId: taskCategory,
-        projectId: 1,
-        createdDate: new Date(),
-      };
       addProject(NewProject)
-      addTask(NewTask)
         .then(history.push(`/`))
         .catch((err) => alert(`An error ocurred: ${err.message}`));
     }
@@ -74,9 +66,14 @@ export const NewProjectForm = () => {
       window.alert("Please add a priority level to this task. If unsure, add mid level priority")
     } else {
       const NewTask = {
-        taskTitle
-      }
-    }
+        taskTitle: taskTitle,
+        taskPriority: taskPriority,
+        taskComplete: 0,
+        taskCategoryId: taskCategory,
+        projectId: 1,
+        createdDate: new Date(),
+    };
+    addTask(NewTask)
   }
 
 
@@ -104,6 +101,11 @@ export const NewProjectForm = () => {
           />
         </FormGroup>
         <div>
+          
+          {currentProjectTasks.map(pt =>
+            <Button>{pt.taskTitle}</Button>)}
+        </div>
+        <div>
           <Button onClick={toggleAddTask}>Add A New Task</Button>
         </div>
 
@@ -129,59 +131,75 @@ export const NewProjectForm = () => {
               </ButtonDropdown>
 
               <div>
-              <FormGroup tag="fieldset">
-        <legend>Task Priority</legend>
-        <FormGroup check>
-          <Label check>
-            <Input 
-              type="radio" 
-              name="taskPriority"
-              value="1"
-              onChange={e => setTaskPriority(e.target.value)} />
+                <FormGroup tag="fieldset">
+                  <legend>Task Priority</legend>
+                  <FormGroup check>
+                    <Label check>
+                      <Input
+                        type="radio"
+                        id="taskPriority"
+                        name="taskPriority"
+                        value="1"
+                        key="1"
+                        onChange={e => 
+                        setTaskPriority(e.target.value)
+                        .then(setCurrentProjectTasks)} />
             CRITICAL
           </Label>
-        </FormGroup>
-        <FormGroup check>
-          <Label check>
-            <Input 
-              type="radio" 
-              name="taskPriority"
-              value="2"
-              onChange={e => setTaskPriority(e.target.value)} />
+                  </FormGroup>
+                  <FormGroup check>
+                    <Label check>
+                      <Input
+                        type="radio"
+                        id="taskPriority"
+                        name="taskPriority"
+                        value="2"
+                        key="2"
+
+                        onChange={e => setTaskPriority(e.target.value)} />
             High
           </Label>
-        </FormGroup>
-        <FormGroup check disabled>
-          <Label check>
-            <Input 
-              type="radio" 
-              name="taskPriority"
-              value="3"
-              onChange={e => setTaskPriority(e.target.value)} />
+                  </FormGroup>
+                  <FormGroup check disabled>
+                    <Label check>
+                      <Input
+                        type="radio"
+                        id="taskPriority"
+                        name="taskPriority"
+                        value="3"
+                        key="3"
+
+                        onChange={e => setTaskPriority(e.target.value)} />
             Medium
           </Label>
-        </FormGroup>
-        <FormGroup check disabled>
-          <Label check>
-            <Input 
-              type="radio" 
-              name="taskPriority"
-              value="4"
-              onChange={e => setTaskPriority(e.target.value)} />
+                  </FormGroup>
+                  <FormGroup check disabled>
+                    <Label check>
+                      <Input
+                        type="radio"
+                        id="taskPriority"
+                        name="taskPriority"
+                        value="4"
+                        key="4"
+
+                        onChange={e => setTaskPriority(e.target.value)} />
             Low
           </Label>
-        </FormGroup>
-        <FormGroup check disabled>
-          <Label check>
-            <Input 
-              type="radio" 
-              name="taskPriority"
-              value="5"
-              onChange={e => setTaskPriority(e.target.value)} />
+                  </FormGroup>
+                  <FormGroup check disabled>
+                    <Label check>
+                      <Input
+                        type="radio"
+                        id="taskPriority"
+                        name="taskPriority"
+                        value="5"
+                        key="5"
+
+                        onChange={e => setTaskPriority(e.target.value)} />
             Minimal
           </Label>
-        </FormGroup>
-      </FormGroup>
+                  </FormGroup>
+                </FormGroup>
               </div>
 
               <div className="">
@@ -209,4 +227,4 @@ export const NewProjectForm = () => {
     </>
   );
 }
-
+}
