@@ -96,6 +96,7 @@ export const ProjectProvider = (props) => {
         addProject,
         updateProject,
         deleteProject,
+        setProject
       }}
     >
       {props.children}

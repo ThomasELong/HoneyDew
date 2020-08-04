@@ -7,7 +7,7 @@ import { TaskCategoryContext } from "../../providers/TaskCategoryProvider";
 
 const NewProjectForm = () => {
   const history = useHistory();
-  const { addProject, getProjectById, addedProject } = useContext(ProjectContext);
+  const { addProject, getProjectById, addedProject, setProject } = useContext(ProjectContext);
   const { tasks, addTask, getTasksByProjectId } = useContext(TaskContext);
   const { taskCategories, getAllTaskCategories } = useContext(TaskCategoryContext);
 
@@ -21,6 +21,7 @@ const NewProjectForm = () => {
   const [taskTitle, setTaskTitle] = useState();
 
   const userProfile = JSON.parse(sessionStorage.getItem("userProfile"));
+
   useEffect(() => {
     getAllTaskCategories()
     console.log(addedProject)
@@ -39,6 +40,10 @@ const NewProjectForm = () => {
     setAddTaskButton(!addTaskButton);
   }
 
+  const clearAddedProject = () => {
+    setProject({});
+  }
+
   const submitNewProjectForm = () => {
 
     if (!projectNote) {
@@ -52,9 +57,10 @@ const NewProjectForm = () => {
         createdDate: new Date(),
         userProfileId: userProfile.id
       };
-      
+
       addProject(NewProject)
-        .catch((err) => alert(`An error ocurred: ${err.message}`));             
+        .catch((err) => alert(`An error ocurred: ${err.message}`))
+        .then(() => (getTasksByProjectId(addedProject)))             
         
     }
   }
@@ -72,7 +78,7 @@ const NewProjectForm = () => {
         projectId: addedProject,
         createdDate: new Date(),
       };
-      
+    
       addTask(NewTask)
       .then(() => getTasksByProjectId(addedProject));
       toggleAddTask()
@@ -238,7 +244,6 @@ const NewProjectForm = () => {
             onClick={(e) => {
               e.preventDefault();
               submitNewProjectForm();
-              
               toggleAddTaskButton();
 
             }}>
@@ -248,8 +253,8 @@ const NewProjectForm = () => {
           <Button
             onClick={(e) => {
               e.preventDefault();
-             (history.push(`/project/${addedProject}`))
-
+              clearAddedProject();
+             (history.push(`/`))
             }}>
             Submit</Button>
         </FormGroup>
