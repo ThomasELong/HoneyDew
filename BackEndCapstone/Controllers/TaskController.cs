@@ -53,6 +53,14 @@ namespace BackEndCapstone.Controllers
             }
             return Ok(task);
         }
+
+        [HttpPost]
+
+        public IActionResult Post(Task task)
+        {
+            _taskRepository.Add(task);
+            return CreatedAtAction(nameof(Get), new { Id = task.id }, task);
+        }
        
     }
 }

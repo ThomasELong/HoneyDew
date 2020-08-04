@@ -6,7 +6,7 @@ export const ProjectContext = React.createContext();
 export const ProjectProvider = (props) => {
   const apiUrl = "/api/project";
   const [projects, setProjects] = useState([]);
-
+  const [ addedProject, setProject ] = useState({})
   const { getToken } = useContext(UserProfileContext);
 
   const getAllProjects = () => {
@@ -29,7 +29,7 @@ export const ProjectProvider = (props) => {
           Authorization: `Bearer ${token}`,
         },
       }).then((resp) => resp.json())
-    );
+      );
     }; 
 
     const getProjectsByUser = () => {
@@ -54,10 +54,11 @@ export const ProjectProvider = (props) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(project),
-      }).then((resp) => {
-        return resp.json();
-      })
-    );
+      }).then((resp) => resp.json())
+        .then((resp) => {
+         return setProject(resp.id)
+        })
+      );
 
 
   const updateProject = (project) =>
@@ -69,7 +70,7 @@ export const ProjectProvider = (props) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(project),
-      }).then(getProjectById(project.id))
+      })
     );
 
   const deleteProject = (id) => {
@@ -87,6 +88,7 @@ export const ProjectProvider = (props) => {
   return (
     <ProjectContext.Provider
       value={{
+        addedProject,
         projects,
         getAllProjects,
         getProjectsByUser,

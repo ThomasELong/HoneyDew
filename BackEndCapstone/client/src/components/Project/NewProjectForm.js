@@ -1,13 +1,13 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { useHistory, useParams, Link } from "react-router-dom";
-import { Button, Form, FormGroup, Modal, ModalHeader, ModalBody, Input, Label, ButtonDropdown, DropdownToggle, DropdownItem, DropdownMenu } from "reactstrap";
+import { Button, Form, ButtonToggle, FormGroup, Modal, ModalHeader, ModalBody, Input, Label, ButtonDropdown, DropdownToggle, DropdownItem, DropdownMenu } from "reactstrap";
 import { ProjectContext } from "../../providers/ProjectProvider";
 import { TaskContext } from "../../providers/TaskProvider";
 import { TaskCategoryContext } from "../../providers/TaskCategoryProvider";
 
-export const NewProjectForm = () => {
+const NewProjectForm = () => {
   const history = useHistory();
-  const { addProject } = useContext(ProjectContext);
+  const { addProject, getProjectById, addedProject } = useContext(ProjectContext);
   const { tasks, addTask, getTasksByProjectId } = useContext(TaskContext);
   const { taskCategories, getAllTaskCategories } = useContext(TaskCategoryContext);
 
@@ -15,22 +15,15 @@ export const NewProjectForm = () => {
   const [projectNote, setprojectNote] = useState();
   const [taskCategoryDropdown, setTaskCategoryDropdown] = useState(false);
   const [addTaskModal, setAddTaskModal] = useState(false);
+  const [addTaskButton, setAddTaskButton] = useState(false);
   const [taskCategory, setTaskCategory] = useState({});
   const [taskPriority, setTaskPriority] = useState();
-  const [ currentProjectTasks, setCurrentProjectTasks] = useState();
-  const { id } = useParams();
+  const [taskTitle, setTaskTitle] = useState();
 
   const userProfile = JSON.parse(sessionStorage.getItem("userProfile"));
-
-  const taskTitle = useRef('taskTitle')
-
   useEffect(() => {
     getAllTaskCategories()
   }, []);
-
-  // useEffect(() => {
-  //   getTasksByProjectId(id)
-  // }, [])
 
   const toggleTaskCategoryDropdown = () => {
     setTaskCategoryDropdown(!taskCategoryDropdown);
@@ -40,9 +33,11 @@ export const NewProjectForm = () => {
     setAddTaskModal(!addTaskModal);
   };
 
+  const toggleAddTaskButton = () => {
+    setAddTaskButton(!addTaskButton);
+  }
 
-  const submitNewProjectForm = (e) => {
-    e.preventDefault();
+  const submitNewProjectForm = () => {
     if (!projectNote) {
       window.alert("Please add some details for your project");
     } else if (!name) {
@@ -55,7 +50,6 @@ export const NewProjectForm = () => {
         userProfileId: userProfile.id
       };
       addProject(NewProject)
-        .then(history.push(`/`))
         .catch((err) => alert(`An error ocurred: ${err.message}`));
     }
   }
@@ -70,17 +64,18 @@ export const NewProjectForm = () => {
         taskPriority: taskPriority,
         taskComplete: 0,
         taskCategoryId: taskCategory,
-        projectId: 1,
+        projectId: addedProject.id,
         createdDate: new Date(),
-    };
-    addTask(NewTask)
+      };
+      addTask(NewTask)
+      console.log(addedProject)
+    }
   }
-
 
   return (
     <>
       <h2>Create Your Project</h2>
-      <Form onSubmit={submitNewProjectForm}>
+      <Form>
         <FormGroup>
           <Label for="title">Name</Label>
           <Input
@@ -101,14 +96,24 @@ export const NewProjectForm = () => {
           />
         </FormGroup>
         <div>
-          
-          {currentProjectTasks.map(pt =>
-            <Button>{pt.taskTitle}</Button>)}
-        </div>
-        <div>
-          <Button onClick={toggleAddTask}>Add A New Task</Button>
-        </div>
+          {addTaskButton &&
+            <>
+              <div>
+                {tasks.map((task) => (
+                  <div>
+                    <Button tag={Link} to={`taskDetails/${task.id}`} key={task.id} color="info" size="md">{task.taskTitle}</Button>
+                  </div>
+                ))}
+              </div>
 
+              <div >
+
+                <Button toggle={toggleAddTaskButton} onClick={toggleAddTask}>Add A New Task</Button>
+              </div>
+            </>
+          }
+        </div>
+        
         <Modal isOpen={addTaskModal} toggle={toggleAddTask}>
           <ModalBody>
             <div className="form-group">
@@ -116,10 +121,11 @@ export const NewProjectForm = () => {
                 placeholder="What is your task's title?"
                 type="text-area"
                 id="taskTitle"
-                ref={taskTitle}
                 required
                 autoFocus
                 className="form-control mt-4"
+                onChange={(e) => setTaskTitle(e.target.value)}
+
 
               />
               <ButtonDropdown isOpen={taskCategoryDropdown} toggle={toggleTaskCategoryDropdown}>
@@ -141,9 +147,8 @@ export const NewProjectForm = () => {
                         name="taskPriority"
                         value="1"
                         key="1"
-                        onChange={e => 
-                        setTaskPriority(e.target.value)
-                        .then(setCurrentProjectTasks)} />
+                        onChange={e =>
+                          setTaskPriority(e.target.value)} />
             CRITICAL
           </Label>
                   </FormGroup>
@@ -209,7 +214,7 @@ export const NewProjectForm = () => {
                   color="info"
                   onClick={(e) => {
                     e.preventDefault();
-                    { submitNewTaskForm() }
+                    submitNewTaskForm()
                   }}
                   className="btn mt-4"
                 >
@@ -221,10 +226,19 @@ export const NewProjectForm = () => {
         </Modal>
 
         <FormGroup>
-          <Button>Save</Button>
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              submitNewProjectForm();
+              getTasksByProjectId();
+              toggleAddTaskButton();
+
+            }}>
+            Save</Button>
         </FormGroup>
       </Form>
     </>
   );
 }
-}
+
+export default NewProjectForm

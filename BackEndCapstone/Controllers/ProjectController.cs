@@ -61,8 +61,6 @@ namespace BackEndCapstone.Controllers
         }
 
 
-
-
         [HttpGet("getbyuser")]
         public IActionResult GetProjectByUser()
         {

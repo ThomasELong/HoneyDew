@@ -19,7 +19,6 @@ export const TaskCategoryProvider = (props) => {
         }
       }).then(resp => resp.json())
         .then(setTaskCategories))
-        .then(console.log(taskCategories));
   }
 
   const getTaskCategoryById = (id) =>

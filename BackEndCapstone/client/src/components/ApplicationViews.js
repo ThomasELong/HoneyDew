@@ -6,7 +6,7 @@ import Register from "./Register";
 import UserDashboard from "./UserProjectDashboard";
 import ProjectDetails from "./Project/ProjectDetails";
 import TaskDetails from "./Task/TaskDetails"
-import { NewProjectForm } from "./Project/NewProjectForm";
+import NewProjectForm from "./Project/NewProjectForm";
 
 
 export default function ApplicationViews() {

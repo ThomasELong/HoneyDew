@@ -1,5 +1,5 @@
-import React, { useEffect, useContext, useState } from "react";
-import { Button, Modal, ModalHeader, ModalBody, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from "reactstrap";
+import React, { useEffect, useContext, useState, useRef } from "react";
+import { Button, Modal, ModalHeader, FormGroup, Label, Input, ModalBody, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from "reactstrap";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { ProjectContext } from "../../providers/ProjectProvider";
 import { TaskContext } from "../../providers/TaskProvider"
@@ -18,9 +18,10 @@ const ProjectDetails = () => {
     const [taskCategoryDropdown, setTaskCategoryDropdown] = useState(false);
     const [project, setProject] = useState({});
     const [name, setName] = useState();
-
-    const [projectNote, setProjectNote] = useState()
-    const [taskTitle, setTaskTitle] = useState();
+    const [taskCategory, setTaskCategory] = useState({});
+    const [taskPriority, setTaskPriority] = useState();
+    const [ taskTitle, setTaskTitle ] = useState();
+    const [projectNote, setProjectNote] = useState();
     const history = useHistory();
 
 
@@ -30,7 +31,7 @@ const ProjectDetails = () => {
 
     useEffect(() => {
         getProjectById(id)
-            .then(setProject);
+        .then(setProject)
         getTasksByProjectId(id)
     }, []);
 
@@ -50,7 +51,6 @@ const ProjectDetails = () => {
         setTaskCategoryDropdown(!taskCategoryDropdown);
     }
 
-
     const submitForm = () => {
         updateProject({
             id: project.id,
@@ -60,6 +60,26 @@ const ProjectDetails = () => {
             userProfileId: userProfileId
         }).then(() => history.push(`/`));
     };
+
+    const submitNewTaskForm = () => {
+        if (!taskTitle) {
+            window.alert("Please add the name of this task");
+        } else if (!taskPriority) {
+            window.alert("Please add a priority level to this task")
+        } else {
+            const NewTask = {
+                taskTitle: taskTitle,
+                taskPriority: taskPriority,
+                taskComplete: 0,
+                taskCategoryId: taskCategory,
+                projectId: id,
+                createdDate: new Date(),
+            };
+            addTask(NewTask)
+            .then(toggleAddTask());
+        }
+    }
+
 
     return (
         <>
@@ -84,50 +104,92 @@ const ProjectDetails = () => {
             </section>
 
             <Modal isOpen={addTaskModal} toggle={toggleAddTask}>
-                <ModalHeader>{project.name}</ModalHeader>
                 <ModalBody>
                     <div className="form-group">
                         <input
+                            placeholder="What is your task's title?"
                             type="text-area"
                             id="taskTitle"
-                            onChange={(e) => setTaskTitle(e.target.value)}
                             required
                             autoFocus
                             className="form-control mt-4"
-                            defaultValue={"Task Title"}
+                            onChange={(e) => setTaskTitle(e.target.value)}
+
                         />
                         <ButtonDropdown isOpen={taskCategoryDropdown} toggle={toggleTaskCategoryDropdown}>
                             <DropdownToggle caret>Category</DropdownToggle>
                             <DropdownMenu>
                                 {taskCategories.map(cat =>
-                                    <DropdownItem>{cat.type}</DropdownItem>)}
+                                    <DropdownItem value={cat.id} onClick={() => setTaskCategory(cat.id)}>{cat.type}</DropdownItem>)}
                             </DropdownMenu>
                         </ButtonDropdown>
 
-                        <input
-                            type="text-area"
-                            id="projectNote"
-                            onChange={(e) => setProjectNote(e.target.value)}
-                            required
-                            autoFocus
-                            className="form-control mt-4"
-                            defaultValue={"Can't remember what this is..."}
-                        />
+                        <div>
+                            <FormGroup tag="fieldset">
+                                <legend>Task Priority</legend>
+                                <FormGroup check>
+                                   <Label check>
+                                        <Input
+                                            type="radio"
+                                            id="taskPriority"
+                                            name="taskPriority"
+                                            value="1"
+                                            key="1"
+                                            onChange={e => {
+                                                setTaskPriority(e.target.value)
+                                            }} />{" "}
+                                        CRITICAL
+                                        </Label>
+                                        <Input
+                                            type="radio"
+                                            id="taskPriority"
+                                            name="taskPriority"
+                                            value="2"
+                                            key="2"
+
+                                            onChange={e => setTaskPriority(e.target.value)} />{" "}
+                                        High
+                                        <Input
+                                            type="radio"
+                                            id="taskPriority"
+                                            name="taskPriority"
+                                            value="3"
+                                            key="3"
+
+                                            onChange={e => setTaskPriority(e.target.value)} />{" "}
+                                        Medium
+                                        <Input
+                                            type="radio"
+                                            id="taskPriority"
+                                            name="taskPriority"
+                                            value="4"
+                                            key="4"
+
+                                            onChange={e => setTaskPriority(e.target.value)} />{" "}
+                                        Low
+                                        <Input
+                                            type="radio"
+                                            id="taskPriority"
+                                            name="taskPriority"
+                                            value="5"
+                                            key="5"
+
+                                            onChange={e => setTaskPriority(e.target.value)} />{" "}
+                                        Minimal
+                                   
+                                </FormGroup>
+                               
+                            </FormGroup>
+                        </div>
 
                         <div className="">
                             <Button
                                 type="submit"
                                 size="sm"
                                 color="info"
-                                onClick={(evt) => {
-                                    evt.preventDefault();
-                                    if (!projectNote) {
-                                        window.alert("Please add notes for your project.");
-                                    } else if (!name) {
-                                        window.alert("Please add a name for your project");
-                                    } else {
-                                        submitForm(project);
-                                    }
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    { submitNewTaskForm() }
                                 }}
                                 className="btn mt-4"
                             >
