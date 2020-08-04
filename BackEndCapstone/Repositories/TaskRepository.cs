@@ -41,18 +41,18 @@ namespace BackEndCapstone.Repositories
             _context.SaveChanges();
         }
 
-        public void Delete(Task task)
-        {
-
-            _context.Task.Remove(task);
-            _context.SaveChanges();
-        }
-
         public void Update(Task task)
         {
             _context.Entry(task).State = EntityState.Modified;
             _context.SaveChanges();
         }
+        public void Delete(int id)
+        {
+            var task = GetById(id);
+            _context.Task.Remove(task);
+            _context.SaveChanges();
+        }
+
         
     }
 }

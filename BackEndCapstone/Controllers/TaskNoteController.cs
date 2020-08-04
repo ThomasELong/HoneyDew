@@ -52,5 +52,18 @@ namespace BackEndCapstone.Controllers
             return Ok(tasknote);
         }
 
+        [HttpPost]
+        public IActionResult Post(TaskNote tasknote)
+        {
+            _taskNoteRepository.Add(tasknote);
+            return CreatedAtAction(nameof(Get), new { Id = tasknote.id }, tasknote);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            _taskNoteRepository.Delete(id);
+            return NoContent();
+        }
+
     }
 }

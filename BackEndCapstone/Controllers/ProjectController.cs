@@ -20,12 +20,14 @@ namespace BackEndCapstone.Controllers
         private readonly ProjectRepository _projectRepository;
         private readonly UserProfileRepository _userProfileRepository;
         private readonly TaskRepository _taskRepository;
+        private readonly TaskNoteRepository _taskNoteRepository;
 
         public ProjectController(ApplicationDbContext context)
         {
             _projectRepository = new ProjectRepository(context);
             _userProfileRepository = new UserProfileRepository(context);
             _taskRepository = new TaskRepository(context);
+            _taskNoteRepository = new TaskNoteRepository(context);
         }
 
         //getting the authorized user's 
@@ -88,7 +90,7 @@ namespace BackEndCapstone.Controllers
         public IActionResult Delete(int id)
         {
             var projectTasks = _taskRepository.GetTasksByProject(id);
-            projectTasks.ForEach(pt => _taskRepository.Delete(pt));
+            projectTasks.ForEach(pt => _taskRepository.Delete(pt.id));
 
             _projectRepository.Delete(id);
             return NoContent();

@@ -30,7 +30,6 @@ export const TaskNoteProvider = (props) => {
       })
         .then((res) => res.json())
         .then((res) => setTaskNotes(res))
-        .then(console.log(tasknotes))
     );
 
   const getAllTaskNotes = () =>
@@ -62,7 +61,10 @@ export const TaskNoteProvider = (props) => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(tasknote)
+      }).then((resp) => {
+        return resp.json();
       }));
+
 
   const updateTaskNote = (tasknote) =>
     getToken().then((token) =>

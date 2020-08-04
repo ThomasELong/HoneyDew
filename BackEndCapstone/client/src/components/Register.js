@@ -7,7 +7,8 @@ export default function Register() {
   const history = useHistory();
   const { register } = useContext(UserProfileContext);
 
-  const [name, setName] = useState();
+  const [firstname, setFirstName] = useState();
+  const [lastname, setLastName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
@@ -17,7 +18,7 @@ export default function Register() {
     if (password && password !== confirmPassword) {
       alert("Passwords don't match. Do better.");
     } else {
-      const userProfile = { name, email };
+      const userProfile = { firstname, lastname, email };
       register(userProfile, password)
         .then(() => history.push("/"));
     }
@@ -27,8 +28,12 @@ export default function Register() {
     <Form onSubmit={registerClick}>
       <fieldset>
         <FormGroup>
-          <Label htmlFor="name">Name</Label>
-          <Input id="name" type="text" onChange={e => setName(e.target.value)} />
+          <Label htmlFor="name">First Name</Label>
+          <Input id="name" type="text" onChange={e => setFirstName(e.target.value)} />
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="name">Last Name</Label>
+          <Input id="name" type="text" onChange={e => setLastName(e.target.value)} />
         </FormGroup>
         <FormGroup>
           <Label for="email">Email</Label>

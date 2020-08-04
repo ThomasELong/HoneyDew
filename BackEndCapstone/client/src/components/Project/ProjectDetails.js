@@ -8,7 +8,7 @@ import { TaskCategoryContext } from "../../providers/TaskCategoryProvider";
 
 const ProjectDetails = () => {
     const { getProjectById, deleteProject, updateProject } = useContext(ProjectContext);
-    const { tasks, getTasksByProjectId, deleteTask, updateTask, addTask } = useContext(TaskContext);
+    const { tasks, getTasksByProjectId, addTask } = useContext(TaskContext);
     const { taskCategories, getAllTaskCategories } = useContext(TaskCategoryContext);
     const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
     const { id } = useParams();
@@ -24,14 +24,13 @@ const ProjectDetails = () => {
     const [projectNote, setProjectNote] = useState();
     const history = useHistory();
 
-
-    useEffect(() => {
-        getAllTaskCategories()
-    }, []);
-
     useEffect(() => {
         getProjectById(id)
         .then(setProject)
+    }, []);
+
+    useEffect(() => {
+        getAllTaskCategories()
         getTasksByProjectId(id)
     }, []);
 
@@ -76,7 +75,8 @@ const ProjectDetails = () => {
                 createdDate: new Date(),
             };
             addTask(NewTask)
-            .then(toggleAddTask());
+            .then(() => (getTasksByProjectId(id)),
+            toggleAddTask());
         }
     }
 
@@ -89,7 +89,8 @@ const ProjectDetails = () => {
                     <div>{project.projectNote}</div>
                     <div>{project.createdDate}</div>
                     <div>
-                        {tasks.map((task) => (
+                        { (tasks.length > 0) &&  
+                        tasks.map((task) => (
                             <div>
                                 <Button tag={Link} to={`taskDetails/${task.id}`} key={task.id} color="info" size="md">{task.taskTitle}</Button>
                             </div>
@@ -189,7 +190,8 @@ const ProjectDetails = () => {
                                 color="info"
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    { submitNewTaskForm() }
+                                    submitNewTaskForm()
+                                    history.push(`/project/${id}`)
                                 }}
                                 className="btn mt-4"
                             >
@@ -259,8 +261,7 @@ const ProjectDetails = () => {
                                     e.preventDefault();
                                     deleteProject(project.id)
                                         .then(() => {
-                                            toggleDelete()
-                                        })
+                                        toggleDelete()})
                                         .then(() => history.push(`/`))
                                 }}
                                 className="btn mt-4"

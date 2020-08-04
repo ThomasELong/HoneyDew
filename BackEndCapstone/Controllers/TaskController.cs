@@ -18,12 +18,14 @@ namespace BackEndCapstone.Controllers
         private readonly ProjectRepository _projectRepository;
         private readonly TaskRepository _taskRepository;
         private readonly UserProfileRepository _userProfileRepository;
+        private readonly TaskNoteRepository _taskNoteRepository;
 
         public TaskController(ApplicationDbContext context)
         {
             _projectRepository = new ProjectRepository(context);
             _taskRepository = new TaskRepository(context);
             _userProfileRepository = new UserProfileRepository(context);
+            _taskNoteRepository = new TaskNoteRepository(context);
         }
 
         [HttpGet]
@@ -61,6 +63,16 @@ namespace BackEndCapstone.Controllers
             _taskRepository.Add(task);
             return CreatedAtAction(nameof(Get), new { Id = task.id }, task);
         }
-       
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var taskTaskNotes = _taskNoteRepository.GetTaskNotesByTaskId(id);
+            taskTaskNotes.ForEach(ttn => _taskNoteRepository.Delete(ttn.id));
+
+            _taskRepository.Delete(id);
+            return NoContent();
+        }
+
     }
 }

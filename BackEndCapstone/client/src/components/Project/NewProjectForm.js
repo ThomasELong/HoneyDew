@@ -23,6 +23,8 @@ const NewProjectForm = () => {
   const userProfile = JSON.parse(sessionStorage.getItem("userProfile"));
   useEffect(() => {
     getAllTaskCategories()
+    console.log(addedProject)
+    console.log(tasks)
   }, []);
 
   const toggleTaskCategoryDropdown = () => {
@@ -38,6 +40,7 @@ const NewProjectForm = () => {
   }
 
   const submitNewProjectForm = () => {
+
     if (!projectNote) {
       window.alert("Please add some details for your project");
     } else if (!name) {
@@ -49,8 +52,10 @@ const NewProjectForm = () => {
         createdDate: new Date(),
         userProfileId: userProfile.id
       };
+      
       addProject(NewProject)
-        .catch((err) => alert(`An error ocurred: ${err.message}`));
+        .catch((err) => alert(`An error ocurred: ${err.message}`));             
+        
     }
   }
   const submitNewTaskForm = () => {
@@ -64,14 +69,15 @@ const NewProjectForm = () => {
         taskPriority: taskPriority,
         taskComplete: 0,
         taskCategoryId: taskCategory,
-        projectId: addedProject.id,
+        projectId: addedProject,
         createdDate: new Date(),
       };
+      
       addTask(NewTask)
-      console.log(addedProject)
+      .then(() => getTasksByProjectId(addedProject));
+      toggleAddTask()
     }
   }
-
   return (
     <>
       <h2>Create Your Project</h2>
@@ -99,7 +105,8 @@ const NewProjectForm = () => {
           {addTaskButton &&
             <>
               <div>
-                {tasks.map((task) => (
+                { (tasks.length > 0) && 
+                tasks.map((task) => (
                   <div>
                     <Button tag={Link} to={`taskDetails/${task.id}`} key={task.id} color="info" size="md">{task.taskTitle}</Button>
                   </div>
@@ -113,7 +120,7 @@ const NewProjectForm = () => {
             </>
           }
         </div>
-        
+
         <Modal isOpen={addTaskModal} toggle={toggleAddTask}>
           <ModalBody>
             <div className="form-group">
@@ -214,7 +221,8 @@ const NewProjectForm = () => {
                   color="info"
                   onClick={(e) => {
                     e.preventDefault();
-                    submitNewTaskForm()
+                    submitNewTaskForm();
+
                   }}
                   className="btn mt-4"
                 >
@@ -230,11 +238,20 @@ const NewProjectForm = () => {
             onClick={(e) => {
               e.preventDefault();
               submitNewProjectForm();
-              getTasksByProjectId();
+              
               toggleAddTaskButton();
 
             }}>
             Save</Button>
+        </FormGroup>
+        <FormGroup>
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+             (history.push(`/project/${addedProject}`))
+
+            }}>
+            Submit</Button>
         </FormGroup>
       </Form>
     </>

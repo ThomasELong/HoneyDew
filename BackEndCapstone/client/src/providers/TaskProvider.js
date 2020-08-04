@@ -20,8 +20,11 @@ export const TaskProvider = (props) => {
       }).then(resp => resp.json()));
   };
 
-  const getTasksByProjectId = (id) =>
-    getToken().then((token) =>
+  const getTasksByProjectId = (id) => {
+    return getToken().then((token) => {
+      if (id === null || id === "") {
+        setTasks([])
+      } else {
       fetch(`${apiUrl}/getbyprojectid/${id}`, {
         method: "GET",
         headers: {
@@ -30,7 +33,8 @@ export const TaskProvider = (props) => {
       })
         .then((res) => res.json())
         .then((res) => setTasks(res))
-    );
+    }}
+    )};
 
   const getAllTasks = () =>
     getToken().then((token) =>
@@ -67,21 +71,16 @@ export const TaskProvider = (props) => {
       }).then(getTask(task.id))
     );
 
-  const deleteTask = (task) => (
-    getToken().then((token) =>
-      fetch(`${apiUrl}/${task.id}`, {
+  const deleteTask = (id) => {
+    return getToken().then((token) =>
+      fetch(`${apiUrl}/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json"
         },
-      }).then(resp => {
-        if (resp.ok) {
-          return;
-        }
-        throw new Error("Unauthorized");
-      }))
-  )
+      }).then(getTasksByProjectId));
+    }
 
   return (
     <TaskContext.Provider value={{ tasks, getTask, addTask, getAllTasks, getTasksByProjectId, updateTask, deleteTask }}>
