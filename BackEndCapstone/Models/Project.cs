@@ -8,7 +8,7 @@ namespace BackEndCapstone.Models
 {
     public class Project
     {
-        public int Id { get; set; }
+        public int id { get; set; }
 
         [Required]
         public string name { get; set; }
@@ -17,12 +17,11 @@ namespace BackEndCapstone.Models
         public string projectNote { get; set; }
 
         [Required]
-        public DateTime timestamp { get; set; }
+        public DateTime createdDate { get; set; }
 
         [Required]
         public int userProfileId { get; set; }
 
-        [Required]
         public UserProfile userProfile { get; set; }
     }
 }

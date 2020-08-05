@@ -1,0 +1,11 @@
+﻿ALTER TABLE Task
+DROP CONSTRAINT [FK_Task_Room]
+
+ALTER TABLE Task
+DROP COLUMN roomId
+
+ALTER TABLE Task
+ADD projectId int NOT NULL
+
+ALTER TABLE Task
+ADD CONSTRAINT [FK_Task_Project] FOREIGN KEY ([projectId]) REFERENCES [dbo].[Project] ([id])

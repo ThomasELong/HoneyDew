@@ -18,7 +18,8 @@ export default function Login() {
   };
 
   return (
-    <Form onSubmit={loginSubmit}>
+    <Form className="loginPage" onSubmit={loginSubmit}>
+    <h1>HoneyDew</h1>
       <fieldset>
         <FormGroup>
           <Label for="email">Email</Label>
@@ -31,10 +32,13 @@ export default function Login() {
         <FormGroup>
           <Button>Login</Button>
         </FormGroup>
+        <button className="authButton">Sign Up</button>
+        <button className="authButton">Sign In</button>
         <em>
           Not registered? <Link to="register">Register</Link>
         </em>
       </fieldset>
     </Form>
+  
   );
 }
