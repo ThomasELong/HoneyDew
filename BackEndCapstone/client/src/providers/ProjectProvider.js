@@ -61,17 +61,19 @@ export const ProjectProvider = (props) => {
       );
 
 
-  const updateProject = (project) =>
-    getToken().then((token) =>
+  const updateProject = (project) => {
+    return getToken().then((token) =>
       fetch(`${apiUrl}/${project.id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(project),
-      })
-    );
+        body: JSON.stringify(project)
+      }).then(getProjectById(project.id))
+    )
+  };
+
 
   const deleteProject = (id) => {
     return getToken().then((token) =>

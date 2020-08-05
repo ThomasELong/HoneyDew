@@ -33,12 +33,12 @@ namespace BackEndCapstone.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var task = _taskNoteRepository.GetById(id);
-            if (task == null)
+            var tasknote = _taskNoteRepository.GetById(id);
+            if (tasknote == null)
             {
                 return NotFound();
             }
-            return Ok(task);
+            return Ok(tasknote);
         }
 
         [HttpGet("getbytaskid/{id}")]
@@ -59,6 +59,15 @@ namespace BackEndCapstone.Controllers
             return CreatedAtAction(nameof(Get), new { Id = tasknote.id }, tasknote);
         }
 
+        [HttpPut("{id}")]
+        public IActionResult Put(TaskNote tasknote)
+        {
+
+            _taskNoteRepository.Update(tasknote);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             _taskNoteRepository.Delete(id);

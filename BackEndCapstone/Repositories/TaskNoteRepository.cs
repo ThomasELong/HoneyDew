@@ -21,7 +21,8 @@ namespace BackEndCapstone.Repositories
         }
         public TaskNote GetById(int id)
         {
-            return _context.TaskNote.FirstOrDefault(tn => tn.id == id);
+            return _context.TaskNote
+                .FirstOrDefault(tn => tn.id == id);
         }
 
         public List<TaskNote> GetTaskNotesByTaskId(int id)

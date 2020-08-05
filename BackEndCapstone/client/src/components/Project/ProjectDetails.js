@@ -17,16 +17,16 @@ const ProjectDetails = () => {
     const [addTaskModal, setAddTaskModal] = useState(false);
     const [taskCategoryDropdown, setTaskCategoryDropdown] = useState(false);
     const [project, setProject] = useState({});
-    const [name, setName] = useState();
     const [taskCategory, setTaskCategory] = useState({});
     const [taskPriority, setTaskPriority] = useState();
-    const [ taskTitle, setTaskTitle ] = useState();
-    const [projectNote, setProjectNote] = useState();
+    const [taskTitle, setTaskTitle] = useState();
     const history = useHistory();
+    const projectName = useRef();
+    const projectNote = useRef();
 
     useEffect(() => {
         getProjectById(id)
-        .then(setProject)
+            .then(setProject)
     }, []);
 
     useEffect(() => {
@@ -50,14 +50,15 @@ const ProjectDetails = () => {
         setTaskCategoryDropdown(!taskCategoryDropdown);
     }
 
-    const submitForm = () => {
+    const submitEditProjectForm = () => {
         updateProject({
             id: project.id,
-            name: name,
-            projectNote: projectNote,
+            name: projectName.current.value,
+            projectNote: projectNote.current.value,
             createdDate: project.createdDate,
             userProfileId: userProfileId
-        }).then(() => history.push(`/`));
+        }).then(() => getProjectById(id)
+        .then(setProject))
     };
 
     const submitNewTaskForm = () => {
@@ -75,12 +76,11 @@ const ProjectDetails = () => {
                 createdDate: new Date(),
             };
             addTask(NewTask)
-            .then(() => (getTasksByProjectId(id)),
-            toggleAddTask());
+                .then(() =>
+                    (getTasksByProjectId(id)),
+                    toggleAddTask());
         }
     }
-
-
     return (
         <>
             <section className="m-4">
@@ -89,12 +89,12 @@ const ProjectDetails = () => {
                     <div>{project.projectNote}</div>
                     <div>{project.createdDate}</div>
                     <div>
-                        { (tasks.length > 0) &&  
-                        tasks.map((task) => (
-                            <div>
-                                <Button tag={Link} to={`taskDetails/${task.id}`} key={task.id} color="info" size="md">{task.taskTitle}</Button>
-                            </div>
-                        ))}
+                        {(tasks.length > 0) &&
+                            tasks.map((task) => (
+                                <div>
+                                    <Button color="info" tag={Link} to={`/taskDetails/${task.id}`} key={task.id} size="md">{task.taskTitle}</Button>
+                                </div>
+                            ))}
                     </div>
                 </div>
                 <div>
@@ -129,58 +129,73 @@ const ProjectDetails = () => {
                             <FormGroup tag="fieldset">
                                 <legend>Task Priority</legend>
                                 <FormGroup check>
-                                   <Label check>
+                                    <Label check>
                                         <Input
                                             type="radio"
                                             id="taskPriority"
                                             name="taskPriority"
-                                            value="1"
-                                            key="1"
-                                            onChange={e => {
-                                                setTaskPriority(e.target.value)
-                                            }} />{" "}
+                                            value="CRITICAL"
+                                            key="CRITICAL"
+                                            onChange={e =>
+                                                setTaskPriority(e.target.value)} />
                                         CRITICAL
-                                        </Label>
-                                        <Input
-                                            type="radio"
-                                            id="taskPriority"
-                                            name="taskPriority"
-                                            value="2"
-                                            key="2"
-
-                                            onChange={e => setTaskPriority(e.target.value)} />{" "}
-                                        High
-                                        <Input
-                                            type="radio"
-                                            id="taskPriority"
-                                            name="taskPriority"
-                                            value="3"
-                                            key="3"
-
-                                            onChange={e => setTaskPriority(e.target.value)} />{" "}
-                                        Medium
-                                        <Input
-                                            type="radio"
-                                            id="taskPriority"
-                                            name="taskPriority"
-                                            value="4"
-                                            key="4"
-
-                                            onChange={e => setTaskPriority(e.target.value)} />{" "}
-                                        Low
-                                        <Input
-                                            type="radio"
-                                            id="taskPriority"
-                                            name="taskPriority"
-                                            value="5"
-                                            key="5"
-
-                                            onChange={e => setTaskPriority(e.target.value)} />{" "}
-                                        Minimal
-                                   
+                                    </Label>
                                 </FormGroup>
-                               
+                                <FormGroup check>
+                                    <Label check>
+                                        <Input
+                                            type="radio"
+                                            id="taskPriority"
+                                            name="taskPriority"
+                                            value="High"
+                                            key="High"
+
+                                            onChange={e => setTaskPriority(e.target.value)} />
+                                        High
+                                    </Label>
+                                </FormGroup>
+                                <FormGroup check disabled>
+                                    <Label check>
+                                        <Input
+                                            type="radio"
+                                            id="taskPriority"
+                                            name="taskPriority"
+                                            value="Medium"
+                                            key="Medium"
+
+                                            onChange={e => setTaskPriority(e.target.value)} />
+                                        Medium
+                                    </Label>
+                                </FormGroup>
+                                <FormGroup check disabled>
+                                    <Label check>
+                                        <Input
+                                            type="radio"
+                                            id="taskPriority"
+                                            name="taskPriority"
+                                            value="Low"
+                                            key="Low"
+
+                                            onChange={e => setTaskPriority(e.target.value)} />
+                                        Low
+                                    </Label>
+                                </FormGroup>
+                                <FormGroup check disabled>
+                                    <Label check>
+                                        <Input
+                                            type="radio"
+                                            id="taskPriority"
+                                            name="taskPriority"
+                                            value="Minimal"
+                                            key="Minimal"
+
+                                            onChange={e => setTaskPriority(e.target.value)} />
+                                        Minimal
+                                    </Label>
+                                </FormGroup>
                             </FormGroup>
+
+
                         </div>
 
                         <div className="">
@@ -191,6 +206,7 @@ const ProjectDetails = () => {
                                 onClick={(e) => {
                                     e.preventDefault();
                                     submitNewTaskForm()
+
                                     history.push(`/project/${id}`)
                                 }}
                                 className="btn mt-4"
@@ -209,8 +225,7 @@ const ProjectDetails = () => {
                         <input
                             type="text"
                             id="name"
-                            onChange={(e) => setName(e.target.value)}
-                            required
+                            ref={projectName}
                             autoFocus
                             className="form-control mt-4"
                             defaultValue={project.name}
@@ -220,8 +235,7 @@ const ProjectDetails = () => {
                         <input
                             type="text-area"
                             id="projectNote"
-                            onChange={(e) => setProjectNote(e.target.value)}
-                            required
+                            ref={projectNote}
                             autoFocus
                             className="form-control mt-4"
                             defaultValue={project.projectNote}
@@ -234,18 +248,11 @@ const ProjectDetails = () => {
                                 color="info"
                                 onClick={(evt) => {
                                     evt.preventDefault();
-                                    if (!projectNote) {
-                                        window.alert("Please add notes for your project.");
-                                    } else if (!name) {
-                                        window.alert("Please add a name for your project");
-                                    } else {
-                                        submitForm(project);
-                                    }
+                                    submitEditProjectForm(project)
+                                    toggleEdit()
                                 }}
                                 className="btn mt-4"
-                            >
-                                Save
-              </Button>
+                            >Save</Button>
                         </div>
                     </div>
                 </ModalBody>
@@ -261,13 +268,14 @@ const ProjectDetails = () => {
                                     e.preventDefault();
                                     deleteProject(project.id)
                                         .then(() => {
-                                        toggleDelete()})
+                                            toggleDelete()
+                                        })
                                         .then(() => history.push(`/`))
                                 }}
                                 className="btn mt-4"
                             >
                                 Yes
-              </Button>
+                            </Button>
                             <Button
                                 type="submit"
                                 size="sm"

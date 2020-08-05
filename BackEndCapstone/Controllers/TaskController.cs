@@ -64,6 +64,14 @@ namespace BackEndCapstone.Controllers
             return CreatedAtAction(nameof(Get), new { Id = task.id }, task);
         }
 
+        [HttpPut("{id}")]
+        public IActionResult Put(Task task)
+        {
+
+            _taskRepository.Update(task);
+            return NoContent();
+        }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

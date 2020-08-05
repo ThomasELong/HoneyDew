@@ -68,8 +68,10 @@ export const TaskProvider = (props) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(task),
-      }).then(getTask(task.id))
+      }).then((resp) => {
+          return resp})
     );
+  
 
   const deleteTask = (id) => {
     return getToken().then((token) =>

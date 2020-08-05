@@ -11,7 +11,7 @@ namespace BackEndCapstone.Models
         [Required]
         public string taskTitle { get; set; }
         [Required]
-        public int taskPriority { get; set; }
+        public string taskPriority { get; set; }
         [Required]
         public bool taskComplete { get; set; }
         [Required]

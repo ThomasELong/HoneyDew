@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useRef, Option, Selection } from "react";
 import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody, Card } from "reactstrap";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { ProjectContext } from "../../providers/ProjectProvider";
@@ -9,25 +9,30 @@ import { TaskNoteContext } from "../../providers/TaskNoteProvider";
 const TaskDetails = () => {
   const { getTask, deleteTask, updateTask, addTask } = useContext(TaskContext)
   const { tasknotes, addTaskNote, getTaskNotesByTaskId } = useContext(TaskNoteContext)
-  const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
   const { id } = useParams();
   const [editModal, setEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+
   const [addTaskNoteModal, setAddTaskNoteModal] = useState(false);
-  const [taskTitle, setTaskTitle] = useState();
   const [taskNoteTitle, setTaskNoteTitle] = useState();
   const [taskNoteContent, setTaskNoteContent] = useState();
-  const [taskPriority, setTaskPriority] = useState()
-  const [taskComplete, setTaskComplete] = useState();
   const [task, setTask] = useState({})
-  const [taskNotes, setTaskNotes] = useState([])
+
   const history = useHistory();
+  const updatedTaskTitle = useRef();
+  const updatedTaskPriority = useRef();
 
   useEffect(() => {
     getTask(id)
-      .then(setTask);
+      .then(setTask)
     getTaskNotesByTaskId(id)
   }, []);
+
+  useEffect(() => {
+    getTask(id)
+      .then(setTask)
+    getTaskNotesByTaskId(id)
+  }, [task]);
 
   const toggleAddTaskNoteModal = () => {
     setAddTaskNoteModal(!addTaskNoteModal)
@@ -43,20 +48,27 @@ const TaskDetails = () => {
     setDeleteModal(!deleteModal);
   };
 
+  const toggleTaskComplete = () => {
+    task.taskComplete = !task.taskComplete;
+    updateTask(task).then((res) => {
+      (setTask(res))
+    })
+  };
+
   const submitEditTaskForm = () => {
-    if (!taskPriority) {
+    if (!updatedTaskPriority) {
       window.alert("Please add a priority for this task.");
-    } else if (!taskTitle) {
+    } else if (!updatedTaskTitle) {
       window.alert("Please add a title for this task");
     } else {
       updateTask({
         id: task.id,
-        taskTitle: taskTitle,
-        taskPriority: taskPriority,
-        taskComplete: taskComplete,
+        taskTitle: updatedTaskTitle.current.value,
+        taskPriority: updatedTaskPriority.current.value,
+        taskComplete: task.taskComplete,
         taskCategoryId: task.taskCategoryId,
         projectId: task.projectId
-      }).then(() => history.push(`/`));
+      }) .then(() => history.push(`/taskDetails/${id}`));
     }
   };
 
@@ -73,8 +85,7 @@ const TaskDetails = () => {
         createdDate: new Date()
       };
       addTaskNote(NewTaskNote)
-      .then(() => (getTaskNotesByTaskId(id)),
-        toggleAddTaskNoteModal())
+        .then(() => (getTaskNotesByTaskId(id)))
     }
   }
 
@@ -84,17 +95,19 @@ const TaskDetails = () => {
         <div>
           <h3>{task.taskTitle}</h3>
           <div>{task.taskPriority}</div>
-          
+          <button onClick={toggleTaskComplete} className={task.taskComplete === true ? "trueColor" : "falseColor"}>Completed?</button>
+
           <div>
-            {tasknotes.map((tasknote) => (
-              <Card>
-              <div>
-                <h3>{tasknote.title}</h3>
-                <p>{tasknote.content}</p>
-                <p>{tasknote.createdDate}</p>
-              </div>
-              </Card>
-            ))}
+            {(tasknotes.length > 0) &&
+              tasknotes.map((tasknote) => (
+                <Card tag={Link} to={`/taskNoteDetails/${tasknote.id}`} key={tasknote.id}>
+                  <div>
+                    <h3>{tasknote.title}</h3>
+                    <p>{tasknote.content}</p>
+                    <p>{tasknote.createdDate}</p>
+                  </div>
+                </Card>
+              ))}
           </div>
         </div>
         <Button onClick={toggleAddTaskNoteModal}>Add A New Task Note</Button>
@@ -102,31 +115,39 @@ const TaskDetails = () => {
         <Button onClick={toggleDelete}>Delete</Button>
       </section>
 
+
+      {/* This modal edits a task */}
       <Modal isOpen={editModal} toggle={toggleEdit}>
         <ModalBody>
+        <Form>
           <div className="form-group">
             <label htmlFor="taskTitle">Task Title </label>
             <input
               type="text"
               id="taskTitle"
-              onChange={(e) => setTaskTitle(e.target.value)}
+              ref={updatedTaskTitle}
               required
               autoFocus
               className="form-control mt-4"
               defaultValue={task.taskTitle}
             />
-
-            <label htmlFor="taskPriority">Task Priority </label>
-            <input
-              type="text-area"
-              id="taskPriority"
-              onChange={(e) => setTaskPriority(e.target.value)}
-              required
-              autoFocus
-              className="form-control mt-4"
-              defaultValue={task.taskPriority}
-            />
-
+            <div>
+              <label htmlfor="taskPriority">Priority</label>
+              <select
+                name='taskPriority'
+                ref={updatedTaskPriority}
+                id='taskPriority'
+                className='form-control'
+                placeholder='taskPriority'
+                defaultValue={task.taskPriority}
+                required>
+                <option value="Critical">Critical</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+                <option value="Minimal">Minimal</option>
+              </select>
+              </div>
             <div className="">
               <Button
                 type="submit"
@@ -135,7 +156,7 @@ const TaskDetails = () => {
                 onClick={(evt) => {
                   evt.preventDefault();
                   submitEditTaskForm(task);
-
+                  toggleEdit()
                 }}
                 className="btn mt-4"
               >
@@ -143,9 +164,12 @@ const TaskDetails = () => {
               </Button>
             </div>
           </div>
+          </Form>
         </ModalBody>
       </Modal>
 
+
+      {/* This modal deletes a task */}
       <Modal isOpen={deleteModal} toggle={toggleDelete}>
         <ModalBody>
           <div className="form-group">
@@ -174,6 +198,7 @@ const TaskDetails = () => {
         </ModalBody>
       </Modal>
 
+      {/* This modal adds and submits and new task note */}
       <Modal isOpen={addTaskNoteModal} toggle={toggleAddTaskNoteModal}>
         <ModalBody>
           <div className="form-group">

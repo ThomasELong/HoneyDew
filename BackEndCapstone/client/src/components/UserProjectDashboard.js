@@ -8,7 +8,7 @@ const UserDashboard = () => {
 
     useEffect(() => {
         getProjectsByUser();
-      }, []);
+      }, [projects]);
 
     return (
         <>

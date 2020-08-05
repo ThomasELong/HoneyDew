@@ -12,7 +12,7 @@ export const TaskNoteProvider = (props) => {
 
   const getTaskNote = (id) => {
     return getToken().then((token) =>
-      fetch(apiUrl + `/${id}`, {
+      fetch(`${apiUrl}/${id}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`
@@ -75,9 +75,20 @@ export const TaskNoteProvider = (props) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(tasknote),
-      }).then(getTaskNote(tasknote.id))
+      }).then((resp) => {
+        return resp })
     );
 
+    const deleteTaskNote = (id) => {
+      return getToken().then((token) =>
+        fetch(`${apiUrl}/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+        }).then(getTaskNotesByTaskId));
+      }
 
 
 
@@ -85,7 +96,7 @@ export const TaskNoteProvider = (props) => {
 
 
   return (
-    <TaskNoteContext.Provider value={{ tasknotes, getTaskNoteById, addTaskNote, getAllTaskNotes, getTaskNotesByTaskId, updateTaskNote }}>
+    <TaskNoteContext.Provider value={{ tasknotes, getTaskNote, getTaskNoteById, addTaskNote, getAllTaskNotes, getTaskNotesByTaskId, updateTaskNote, deleteTaskNote }}>
       {props.children}
     </TaskNoteContext.Provider>
   );
