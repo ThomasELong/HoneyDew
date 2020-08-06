@@ -11,7 +11,6 @@ namespace BackEndCapstone.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         public DbSet<UserProfile> UserProfile { get; set; }
         public DbSet<Project> Project { get; set; }
-        public DbSet<Room> Room { get; set; }
         public DbSet<Task> Task { get; set; }
         public DbSet<TaskCategory> TaskCategory { get; set; }
         public DbSet<TaskNote> TaskNote { get; set; }

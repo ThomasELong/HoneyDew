@@ -14,7 +14,7 @@ namespace BackEndCapstone.Models
         [Required]
         public string content { get; set; }
         [Required]
-        public DateTime timestamp { get; set; }
+        public DateTime createdDate { get; set; }
         [Required]
         public int taskId { get; set; }
         public Task task { get; set; }
