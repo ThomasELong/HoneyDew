@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState, useRef} from "react";
+import React, { useEffect, useContext, useState, useRef } from "react";
 import styles from "../Styles";
 import { Button, Modal, ModalHeader, FormGroup, Label, Input, ModalBody, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from "reactstrap";
 import { useParams, useHistory, Link } from "react-router-dom";
@@ -28,27 +28,27 @@ const ProjectDetails = () => {
 
     useEffect(() => {
         getProjectById(id)
-            .then(setProject) 
+            .then(setProject)
     }, []);
 
-    
+
     useEffect(() => {
         getAllTaskCategories()
         getTasksByProjectId(id)
     }, []);
-    
+
     const toggleEdit = () => {
         setEditModal(!editModal);
     };
-    
+
     const toggleDelete = () => {
         setDeleteModal(!deleteModal);
     };
-    
+
     const toggleAddTask = () => {
         setAddTaskModal(!addTaskModal);
     };
-    
+
     const toggleTaskCategoryDropdown = () => {
         setTaskCategoryDropdown(!taskCategoryDropdown);
     };
@@ -62,38 +62,38 @@ const ProjectDetails = () => {
             userProfileId: userProfileId
         }).then(() => getProjectById(id)
             .then(setProject))
-        };
-        
-        const submitNewTaskForm = () => {
-            if (!taskTitle) {
-                window.alert("Please add the name of this task");
-            } else if (!taskPriority) {
-                window.alert("Please add a priority level to this task")
-            } else {
-                const NewTask = {
-                    taskTitle: taskTitle,
-                    taskPriority: taskPriority,
-                    taskComplete: 0,
-                    taskCategoryId: taskCategory,
-                    projectId: id,
-                    createdDate: new Date(),
-                };
-                addTask(NewTask)
+    };
+
+    const submitNewTaskForm = () => {
+        if (!taskTitle) {
+            window.alert("Please add the name of this task");
+        } else if (!taskPriority) {
+            window.alert("Please add a priority level to this task")
+        } else {
+            const NewTask = {
+                taskTitle: taskTitle,
+                taskPriority: taskPriority,
+                taskComplete: 0,
+                taskCategoryId: taskCategory,
+                projectId: id,
+                createdDate: new Date(),
+            };
+            addTask(NewTask)
                 .then(() =>
-                (getTasksByProjectId(id)),
-                toggleAddTask());
-            }
-        };
+                    (getTasksByProjectId(id)),
+                    toggleAddTask());
+        }
+    };
 
 
-        
+
     const formattedDate = (date) => {
-        if(date === undefined) {
-            return "";   
+        if (date === undefined) {
+            return "";
         } else {
             const unformatedDate = date.split("T")[0];
             const [year, month, day] = unformatedDate.split("-");
-            return month + "/" + day + "/" + year;  
+            return month + "/" + day + "/" + year;
         }
     }
 
@@ -104,7 +104,7 @@ const ProjectDetails = () => {
                     <h3>Title: {project.name}</h3>
                     <div>Notes: {project.projectNote}</div>
                     <div>Date Added: {formattedDate(project.createdDate)} </div>
-                       
+
                     <div className="tasksContainer">
                         {(tasks.length > 0) &&
                             tasks.map((task) => (
@@ -117,11 +117,11 @@ const ProjectDetails = () => {
 
                 <div className="buttonContainer">
                     <div>
-                    <Button style={styles.addNewTaskButton} onClick={toggleAddTask}>Add A New Task</Button>
+                        <Button style={styles.addNewTaskButton} onClick={toggleAddTask}>Add A New Task</Button>
                     </div>
                     <div>
-                    <Button style={styles.editTaskButton} onClick={toggleEdit}>Edit</Button>
-                    <Button style={styles.deleteTaskButton} onClick={toggleDelete}>Delete</Button>
+                        <Button style={styles.editTaskButton} onClick={toggleEdit}>Edit</Button>
+                        <Button style={styles.deleteTaskButton} onClick={toggleDelete}>Delete</Button>
                     </div>
                 </div>
             </section>
@@ -143,11 +143,12 @@ const ProjectDetails = () => {
                             <DropdownToggle style={styles.editTaskButton} caret>{selectedCategory}</DropdownToggle>
                             <DropdownMenu>
                                 {taskCategories.map(cat =>
-                                    <DropdownItem 
-                                    value={cat.id} 
-                                    onClick={() => {
-                                    setTaskCategory(cat.id)
-                                    setSelectedCategory(cat.type)}}>
+                                    <DropdownItem
+                                        value={cat.id}
+                                        onClick={() => {
+                                            setTaskCategory(cat.id)
+                                            setSelectedCategory(cat.type)
+                                        }}>
                                         {cat.type}
                                     </DropdownItem>)}
                             </DropdownMenu>
@@ -293,6 +294,7 @@ const ProjectDetails = () => {
                         <h3>Are you sure you want to delete "{project.name}"?</h3>
                         <div className="">
                             <Button
+                            style={styles.yesDeleteButton}
                                 onClick={(e) => {
                                     e.preventDefault();
                                     deleteProject(project.id)
@@ -301,14 +303,13 @@ const ProjectDetails = () => {
                                         })
                                         .then(() => history.push(`/`))
                                 }}
-                                className="btn mt-4"
+                                
                             >
                                 Yes
                             </Button>
                             <Button
                                 type="submit"
-                                size="sm"
-                                color="info"
+                                style={styles.noDeleteButton}
                                 onClick={toggleDelete}
                             >
                                 No

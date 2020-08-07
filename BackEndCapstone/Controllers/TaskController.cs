@@ -56,6 +56,16 @@ namespace BackEndCapstone.Controllers
             return Ok(task);
         }
 
+        [HttpGet("getbycategoryid/{id}")]
+        public IActionResult GetTasksByCategoryId(int id)
+        {
+            var tasks = _taskRepository.GetTasksByCategoryId(id);
+            if (tasks == null) {
+                return NotFound();
+            }
+            return Ok(tasks);
+        }
+
         [HttpPost]
 
         public IActionResult Post(Task task)

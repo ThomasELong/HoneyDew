@@ -36,6 +36,17 @@ export const TaskProvider = (props) => {
     }}
     )};
 
+    const getTasksByCategoryId = (id) => {
+      return getToken().then((token) =>
+        fetch(`${apiUrl}/getbycategoryid/${id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then((resp) => resp.json())
+      );
+    };
+
   const getAllTasks = () =>
     getToken().then((token) =>
       fetch(apiUrl, {
@@ -85,7 +96,7 @@ export const TaskProvider = (props) => {
     }
 
   return (
-    <TaskContext.Provider value={{ tasks, getTask, addTask, getAllTasks, getTasksByProjectId, updateTask, deleteTask }}>
+    <TaskContext.Provider value={{ tasks, getTask, addTask, getAllTasks, getTasksByProjectId, getTasksByCategoryId, updateTask, deleteTask }}>
       {props.children}
     </TaskContext.Provider>
   );

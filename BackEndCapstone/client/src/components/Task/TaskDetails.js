@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState, useRef, Option, Selection } from "react";
+import styles from "../Styles";
 import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody, Card, CardTitle, CardText, CardGroup } from "reactstrap";
 import { useParams, useHistory, Link } from "react-router-dom";
-import { ProjectContext } from "../../providers/ProjectProvider";
 import { TaskContext } from "../../providers/TaskProvider"
 import { TaskNoteContext } from "../../providers/TaskNoteProvider";
 
@@ -28,12 +28,6 @@ const TaskDetails = () => {
     getTaskNotesByTaskId(id)
   }, []);
 
-  useEffect(() => {
-    getTask(id)
-      .then(setTask)
-    getTaskNotesByTaskId(id)
-  }, [task]);
-
   const toggleAddTaskNoteModal = () => {
     setAddTaskNoteModal(!addTaskNoteModal)
   }
@@ -50,10 +44,17 @@ const TaskDetails = () => {
 
   const toggleTaskComplete = () => {
     task.taskComplete = !task.taskComplete;
-    updateTask(task).then((res) => {
-      (setTask(res))
-    })
+    updateTask(task)
+    .then((res) => {
+      (setTask(res))})
+    .then(() => (window.location.reload()))
+      
   };
+  useEffect(() => {
+    getTask(id)
+      .then(setTask)
+    getTaskNotesByTaskId(id)
+  }, []);
 
   const submitEditTaskForm = () => {
     if (!updatedTaskPriority) {
@@ -68,7 +69,7 @@ const TaskDetails = () => {
         taskComplete: task.taskComplete,
         taskCategoryId: task.taskCategoryId,
         projectId: task.projectId
-      }) .then(() => history.push(`/taskDetails/${id}`));
+      }).then(() => history.push(`/project/${task.projectId}`));
     }
   };
 
@@ -86,7 +87,17 @@ const TaskDetails = () => {
       };
       addTaskNote(NewTaskNote)
         .then(() => (getTaskNotesByTaskId(id)),
-        toggleAddTaskNoteModal())
+          toggleAddTaskNoteModal())
+    }
+  }
+
+  const formattedDate = (date) => {
+    if (date === undefined) {
+      return ""
+    } else {
+      const unformatedDate = date.split("T")[0];
+      const [year, month, day] = unformatedDate.split("-");
+      return month + "/" + day + "/" + year;
     }
   }
 
@@ -96,34 +107,33 @@ const TaskDetails = () => {
         <div>
           <div className="taskHeader">
             <h2>{task.taskTitle}</h2>
-            <h4>{task.taskPriority}</h4>
+            <h4>Priority: {task.taskPriority}</h4>
           </div>
           <button onClick={toggleTaskComplete} className={task.taskComplete === true ? "trueColor" : "falseColor"}>Complete</button>
 
           <div className="container">
             <CardGroup>
-            {(tasknotes.length > 0) &&
-              tasknotes.map((tasknote) => (
-                <div>
-                <Card tag={Link} to={`/taskNoteDetails/${tasknote.id}`} key={tasknote.id}>
-                  <CardBody>
-                    <CardTitle>{tasknote.title}</CardTitle>
-                    <CardText>{tasknote.content}</CardText>
-                    <CardText>{tasknote.createdDate}</CardText>
-                  </CardBody>
-                </Card>
-              </div>
-              ))}
-              </CardGroup>
+              {(tasknotes.length > 0) &&
+                tasknotes.map((tasknote) => (
+                  <div>
+                    <Card tag={Link} to={`/taskNoteDetails/${tasknote.id}`} key={tasknote.id}>
+                      <CardBody>
+                        <CardTitle>{tasknote.title}</CardTitle>
+                        <CardText>{tasknote.content}</CardText>
+                        <CardText>{formattedDate(tasknote.createdDate)}</CardText>
+                      </CardBody>
+                    </Card>
+                  </div>
+                ))}
+            </CardGroup>
           </div>
         </div>
         <div className="taskButtonContainer">
           <div>
-        <Button outline color="info" onClick={toggleAddTaskNoteModal}>Add A New Task Note</Button>
-        <Button outline color="info" onClick={toggleEdit}>Edit</Button>
-        <Button outline color="danger" onClick={toggleDelete}>Delete</Button>
-        </div>
-        <Button outline>Return To Project</Button>
+            <Button style={styles.addNewTaskButton} onClick={toggleAddTaskNoteModal}>Add A New Task Note</Button>
+            <Button style={styles.editTaskButton} onClick={toggleEdit}>Edit</Button>
+            <Button style={styles.deleteTaskButton} onClick={toggleDelete}>Delete</Button>
+          </div>
         </div>
       </section>
 
@@ -131,51 +141,51 @@ const TaskDetails = () => {
       {/* This modal edits a task */}
       <Modal isOpen={editModal} toggle={toggleEdit}>
         <ModalBody>
-        <Form>
-          <div className="form-group">
-            <label htmlFor="taskTitle">Task Title </label>
-            <input
-              type="text"
-              id="taskTitle"
-              ref={updatedTaskTitle}
-              required
-              autoFocus
-              className="form-control mt-4"
-              defaultValue={task.taskTitle}
-            />
-            <div>
-              <label htmlfor="taskPriority">Priority</label>
-              <select
-                name='taskPriority'
-                ref={updatedTaskPriority}
-                id='taskPriority'
-                className='form-control'
-                placeholder='taskPriority'
-                defaultValue={task.taskPriority}
-                required>
-                <option value="Critical">Critical</option>
-                <option value="High">High</option>
-                <option value="Medium">Medium</option>
-                <option value="Low">Low</option>
-                <option value="Minimal">Minimal</option>
-              </select>
+          <Form>
+            <div className="form-group">
+              <label htmlFor="taskTitle">Task Title </label>
+              <input
+                type="text"
+                id="taskTitle"
+                ref={updatedTaskTitle}
+                required
+                autoFocus
+                className="form-control mt-4"
+                defaultValue={task.taskTitle}
+              />
+              <div>
+                <label htmlfor="taskPriority">Priority</label>
+                <select
+                  name='taskPriority'
+                  ref={updatedTaskPriority}
+                  id='taskPriority'
+                  className='form-control'
+                  placeholder='taskPriority'
+                  defaultValue={task.taskPriority}
+                  required>
+                  <option value="Critical">Critical</option>
+                  <option value="High">High</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Low">Low</option>
+                  <option value="Minimal">Minimal</option>
+                </select>
               </div>
-            <div className="">
-              <Button
-                type="submit"
-                size="sm"
-                color="info"
-                onClick={(evt) => {
-                  evt.preventDefault();
-                  submitEditTaskForm(task);
-                  toggleEdit()
-                }}
-                className="btn mt-4"
-              >
-                Save
+              <div className="">
+                <Button
+                  type="submit"
+                  size="sm"
+                  color="info"
+                  onClick={(evt) => {
+                    evt.preventDefault();
+                    submitEditTaskForm(task);
+                    toggleEdit()
+                  }}
+                  className="btn mt-4"
+                >
+                  Save
               </Button>
+              </div>
             </div>
-          </div>
           </Form>
         </ModalBody>
       </Modal>
@@ -188,19 +198,19 @@ const TaskDetails = () => {
             <h3>Are you sure you want to delete "{task.taskTitle}"?</h3>
             <div className="">
               <Button
+                style={styles.yesDeleteButton}
+
                 onClick={(e) => {
                   e.preventDefault();
                   deleteTask(task.id)
                     .then(() => history.push(`/project/${projectId}`))
                 }}
-                className="btn mt-4"
               >
                 Yes
               </Button>
               <Button
-                type="submit"
-                size="sm"
-                color="info"
+                style={styles.noDeleteButton}
+
                 onClick={toggleDelete}
               >
                 No
@@ -235,12 +245,11 @@ const TaskDetails = () => {
             <div className="">
               <Button
                 type="submit"
-                size="sm"
-                color="info"
+                style={styles.addNewTaskButton}
                 onClick={(e) => {
                   e.preventDefault();
                   submitNewTaskNoteForm();
-                  
+
                 }}
                 className="btn mt-4"
               >

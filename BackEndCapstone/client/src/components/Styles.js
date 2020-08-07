@@ -4,15 +4,15 @@ const styles = {
         borderColor: '#4e5851',
         color: '#ffffff',
         width: '100%',
-        height: '6em',
-        titleStyle: '25pt'
+        height: '4em',
+        fontSize: '25pt'
     },
     existingProjectsButton: {
         backgroundColor: '#8cb4d2',
         borderColor: '#5f719d',
         color: '#ffffff',
-        width: '9em',
-        height: '6em'
+        width: '6em',
+        fontSize: '17pt'
     },
     saveButton: {
         backgroundColor: '#9cb0a3',
@@ -54,6 +54,24 @@ const styles = {
         fontSize: '15pt',
 
     },
+    returnToProjectButton: {
+        backgroundColor: '#c5bbc7',
+        borderColor: '#78677c',
+        color: '#ffffff',
+        width: '100%',
+        fontSize: '20pt'
+
+    },
+    yesDeleteButton: {
+        backgroundColor: '#f99797',
+        borderColor: '#db6666',
+        width: '25%'
+    },
+    noDeleteButton: {
+        backgroundColor: '#9cb0a3',
+        borderColor: '#596d5f',
+        width: '25%'
+    }
     
 };
 
