@@ -55,7 +55,6 @@ const TaskNoteDetails = () => {
         </div>
         <Button style={styles.editTaskButton} onClick={toggleNoteEdit}>Edit</Button>
         <Button style={styles.deleteTaskButton} onClick={toggleNoteDelete}>Delete</Button>
-        <Button style={styles.returnToProjectButton} onMouseUp={() => (history.goBack())}>Return to Task</Button>
 
       </section>
 
