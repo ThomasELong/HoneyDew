@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState, useRef, Option, Selection } from "react";
-import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody, Card } from "reactstrap";
+import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody, Card, CardTitle, CardText, CardGroup } from "reactstrap";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { ProjectContext } from "../../providers/ProjectProvider";
 import { TaskContext } from "../../providers/TaskProvider"
@@ -85,34 +85,46 @@ const TaskDetails = () => {
         createdDate: new Date()
       };
       addTaskNote(NewTaskNote)
-        .then(() => (getTaskNotesByTaskId(id)))
+        .then(() => (getTaskNotesByTaskId(id)),
+        toggleAddTaskNoteModal())
     }
   }
 
   return (
     <>
-      <section className="m-4">
+      <section className="container">
         <div>
-          <h3>{task.taskTitle}</h3>
-          <div>{task.taskPriority}</div>
-          <button onClick={toggleTaskComplete} className={task.taskComplete === true ? "trueColor" : "falseColor"}>Completed?</button>
+          <div className="taskHeader">
+            <h2>{task.taskTitle}</h2>
+            <h4>{task.taskPriority}</h4>
+          </div>
+          <button onClick={toggleTaskComplete} className={task.taskComplete === true ? "trueColor" : "falseColor"}>Complete</button>
 
-          <div>
+          <div className="container">
+            <CardGroup>
             {(tasknotes.length > 0) &&
               tasknotes.map((tasknote) => (
+                <div>
                 <Card tag={Link} to={`/taskNoteDetails/${tasknote.id}`} key={tasknote.id}>
-                  <div>
-                    <h3>{tasknote.title}</h3>
-                    <p>{tasknote.content}</p>
-                    <p>{tasknote.createdDate}</p>
-                  </div>
+                  <CardBody>
+                    <CardTitle>{tasknote.title}</CardTitle>
+                    <CardText>{tasknote.content}</CardText>
+                    <CardText>{tasknote.createdDate}</CardText>
+                  </CardBody>
                 </Card>
+              </div>
               ))}
+              </CardGroup>
           </div>
         </div>
-        <Button onClick={toggleAddTaskNoteModal}>Add A New Task Note</Button>
-        <Button onClick={toggleEdit}>Edit</Button>
-        <Button onClick={toggleDelete}>Delete</Button>
+        <div className="taskButtonContainer">
+          <div>
+        <Button outline color="info" onClick={toggleAddTaskNoteModal}>Add A New Task Note</Button>
+        <Button outline color="info" onClick={toggleEdit}>Edit</Button>
+        <Button outline color="danger" onClick={toggleDelete}>Delete</Button>
+        </div>
+        <Button outline>Return To Project</Button>
+        </div>
       </section>
 
 
@@ -227,7 +239,8 @@ const TaskDetails = () => {
                 color="info"
                 onClick={(e) => {
                   e.preventDefault();
-                  submitNewTaskNoteForm()
+                  submitNewTaskNoteForm();
+                  
                 }}
                 className="btn mt-4"
               >

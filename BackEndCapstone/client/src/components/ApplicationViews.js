@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
+import Welcome from "./Welcome"
 import Login from "./Login";
 import Register from "./Register";
 import UserDashboard from "./UserProjectDashboard";
@@ -16,23 +17,27 @@ export default function ApplicationViews() {
     <main>
       <Switch>
         <Route path="/" exact>
-            {isLoggedIn ? <UserDashboard /> : <Redirect to="/login" />}
+            {isLoggedIn ? <UserDashboard /> : <Redirect to="/welcome" />}
         </Route>
 
         <Route path="/newProjectForm" exact>
-            {isLoggedIn ? <NewProjectForm /> : <Redirect to="/login" />}
+            {isLoggedIn ? <NewProjectForm /> : <Redirect to="/welcome" />}
         </Route>
 
         <Route path={`/project/:id`} exact>
-            {isLoggedIn ? <ProjectDetails /> : <Redirect to="/login" />}
+            {isLoggedIn ? <ProjectDetails /> : <Redirect to="/welcome" />}
         </Route>
 
         <Route path={`/taskDetails/:id`} exact>
-            {isLoggedIn ? <TaskDetails /> : <Redirect to="/login" />}
+            {isLoggedIn ? <TaskDetails /> : <Redirect to="/welcome" />}
         </Route>
 
         <Route path={`/taskNoteDetails/:id`} exact>
-            {isLoggedIn ? <TaskNoteDetails /> : <Redirect to="/login" />}
+            {isLoggedIn ? <TaskNoteDetails /> : <Redirect to="/welcome" />}
+        </Route>
+
+        <Route path="/welcome">
+          <Welcome />
         </Route>
 
         <Route path="/login">

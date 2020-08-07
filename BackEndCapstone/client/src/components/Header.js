@@ -22,21 +22,6 @@ export default function Header() {
         <NavbarBrand tag={RRNavLink} to="/">
          HoneyDew
         </NavbarBrand>
-        <NavbarToggler onClick={toggle} />
-        <Collapse isOpen={isOpen} navbar>
-          <Nav className="mr-auto" navbar>
-            {/* When isLoggedIn === true, we will render the Post link */}
-            {isLoggedIn && (
-              <>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/UserDashboard">
-                    Home
-                  </NavLink>
-                </NavItem>
-              </>
-            )}
-          </Nav>
-
           <Nav navbar>
             {isLoggedIn && (
               <>
@@ -54,20 +39,15 @@ export default function Header() {
             )}
             {!isLoggedIn && (
               <>
-                <NavItem>
+              <NavItem>Please sign in</NavItem>
+                {/* <NavItem>
                   <NavLink tag={RRNavLink} to="/login">
                     Login
                   </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/register">
-                    Register
-                  </NavLink>
-                </NavItem>
+                </NavItem> */}
               </>
             )}
           </Nav>
-        </Collapse>
       </Navbar>
     </div>
   );

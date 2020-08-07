@@ -45,7 +45,7 @@ export const ProjectProvider = (props) => {
       );
     };
 
-  const addProject = (project) =>
+  const addProject = (project) => {
     getToken().then((token) =>
       fetch(apiUrl, {
         method: "POST",
@@ -55,10 +55,8 @@ export const ProjectProvider = (props) => {
         },
         body: JSON.stringify(project),
       }).then((resp) => resp.json())
-        .then((resp) => {
-         return setProject(resp.id)
-        })
-      );
+      )
+    };
 
 
   const updateProject = (project) => {
@@ -90,7 +88,6 @@ export const ProjectProvider = (props) => {
   return (
     <ProjectContext.Provider
       value={{
-        addedProject,
         projects,
         getAllProjects,
         getProjectsByUser,
