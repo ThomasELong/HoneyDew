@@ -3,7 +3,7 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useHistory, Link } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
-export default function Login() {
+export default function Welcome() {
   const history = useHistory();
   const { login } = useContext(UserProfileContext);
 
@@ -18,22 +18,14 @@ export default function Login() {
   };
 
   return (
-    <Form className="container" onSubmit={loginSubmit}>
+    <section className="welcome">
     <h1>HoneyDew</h1>
-      <fieldset>
-        <FormGroup>
-          <Label for="email">Email</Label>
-          <Input id="email" type="text" onChange={e => setEmail(e.target.value)} />
-        </FormGroup>
-        <FormGroup>
-          <Label for="password">Password</Label>
-          <Input id="password" type="password" onChange={e => setPassword(e.target.value)} />
-        </FormGroup>
-        <FormGroup>
-          <Button>Login</Button>
-        </FormGroup>
-      </fieldset>
-    </Form>
+    <div className="motto">We Help Make Honey-Do Into Honey-Done!</div>
+      <div className="loginregister">
+        <Button size="lg" color="info" outline tag={Link} to={`register`}>Sign Up</Button>
+        <Button size="lg" color="primary" outline tag={Link} to={`login`}>Sign In</Button>
+      </div> 
+    </section>
   
   );
 }

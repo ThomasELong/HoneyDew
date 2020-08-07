@@ -1,29 +1,37 @@
 import React, { useContext, useEffect } from "react"
+import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody, Card, CardTitle, CardText, CardGroup } from "reactstrap";
+import styles from "./Styles";
 import { ProjectContext } from "../providers/ProjectProvider";
 import { Link } from "react-router-dom";
-import { Button} from "reactstrap";
 
 const UserDashboard = () => {
     const { projects, getProjectsByUser} = useContext(ProjectContext);
 
     useEffect(() => {
         getProjectsByUser();
-      }, [projects]);
+      }, []);
 
     return (
         <>
-            <section className="dashboardContainer">
+            <section className="container">
                 <div className="addNewProjectLink">
-                    <Button tag={Link} color="info" size="lg" to="/newProjectForm">Add New Project</Button>
+                    <Button tag={Link} style={styles.addProjectButton} size="lg" to="/newProjectForm">Add New Project</Button>
                 </div>
                 <div className="existingProjectsContainer">
                    { (projects.length > 0 ) &&
                         projects.map((project) => (
-                            <Button tag={Link} className="existingProjects" key={project.id} to={`/project/${project.id}`}><strong> {project.name}</strong></Button>
+                            <div className="existingProject">
+                            <Button style={styles.existingProjectsButton} tag={Link}  
+                            key={project.id} 
+                            to={`/project/${project.id}`}> 
+                            {project.name}
+                            </Button>
+                            </div>
                         ))
                         }    
                     
                 </div>
+                
             </section>
         </>
     )

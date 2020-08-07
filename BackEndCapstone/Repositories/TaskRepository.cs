@@ -34,6 +34,13 @@ namespace BackEndCapstone.Repositories
                 .OrderByDescending(t => t.taskPriority)
                 .ToList();
         }
+        public List<Task> GetTasksByCategoryId(int id)
+        {
+            return _context.Task
+                .Include(t => t.taskCategory)
+                .Where(t => t.taskCategoryId == id)
+                .ToList();
+        }
 
         public void Add(Task task)
         {

@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
+import styles from "../Styles";
 import { useHistory, useParams, Link } from "react-router-dom";
 import { Button, Form, ButtonToggle, FormGroup, Modal, ModalHeader, ModalBody, Input, Label, ButtonDropdown, DropdownToggle, DropdownItem, DropdownMenu } from "reactstrap";
 import { ProjectContext } from "../../providers/ProjectProvider";
@@ -7,98 +8,72 @@ import { TaskCategoryContext } from "../../providers/TaskCategoryProvider";
 
 const NewProjectForm = () => {
   const history = useHistory();
-  const { addProject, getProjectById, addedProject, setProject } = useContext(ProjectContext);
-  const { tasks, addTask, getTasksByProjectId } = useContext(TaskContext);
-  const { taskCategories, getAllTaskCategories } = useContext(TaskCategoryContext);
+  const { addProject } = useContext(ProjectContext);
 
-  const [name, setName] = useState();
-  const [projectNote, setprojectNote] = useState();
-  // const [taskCategoryDropdown, setTaskCategoryDropdown] = useState(false);
-  // const [addTaskModal, setAddTaskModal] = useState(false);
-  // const [addTaskButton, setAddTaskButton] = useState(false);
-  // const [taskCategory, setTaskCategory] = useState({});
-  // const [taskPriority, setTaskPriority] = useState();
-  // const [taskTitle, setTaskTitle] = useState();
+  const name = useRef();
+  const details = useRef();
+
+
 
   const userProfile = JSON.parse(sessionStorage.getItem("userProfile"));
 
-  useEffect(() => {
-    getAllTaskCategories()
-    console.log(addedProject)
-    console.log(tasks)
-  }, []);
-
-  // const toggleTaskCategoryDropdown = () => {
-  //   setTaskCategoryDropdown(!taskCategoryDropdown);
-  // };
-
-  // const toggleAddTask = () => {
-  //   setAddTaskModal(!addTaskModal);
-  // };
-
-  // const toggleAddTaskButton = () => {
-  //   setAddTaskButton(!addTaskButton);
-  // }
-
-  // const clearAddedProject = () => {
-  //   setProject({});
-  // }
 
   const submitNewProjectForm = () => {
 
-    if (!projectNote) {
+    if (!details) {
       window.alert("Please add some details for your project");
     } else if (!name) {
       window.alert("Please add the name of your project");
     } else {
       const NewProject = {
-        name: name,
-        projectNote: projectNote,
+        name: name.current.value,
+        projectNote: details.current.value,
         userProfileId: userProfile.id,
         createdDate: new Date()
       };
       addProject(NewProject)
-        .catch((err) => alert(`An error ocurred: ${err.message}`))
-        .then(() => (getTasksByProjectId(addedProject)))             
-        .then(history.push(`/`))
+      history.push(`/`)
 
     }
   }
 
   return (
     <>
-      <h2>Create Your Project</h2>
-      <Form>
-        <FormGroup>
-          <Label for="title">Name</Label>
-          <Input
-            placeholder="What's your project's name?"
-            id="new-project-name"
-            type="text"
-            onChange={(e) => setName(e.target.value)}
-          />
-        </FormGroup>
+      <h2 className="container">Create Your Project</h2>
+      <div className="newProjectContainer">
+        <Form>
+          <FormGroup>
+            <Label for="title">Name</Label>
+            <Input
+              placeholder="What's your project's name?"
+              id="new-project-name"
+              type="text"
+              innerRef={name}
+            />
+          </FormGroup>
 
-        <FormGroup>
-          <Label for="new-project-note">Details</Label>
-          <Input
-            placeholder="Add some project details here."
-            id="projectNote"
-            type="textarea"
-            onChange={(e) => setprojectNote(e.target.value)}
-          />
-        </FormGroup>
+          <FormGroup>
+            <Label for="new-project-note">Details</Label>
+            <Input
+              placeholder="Add some project details here."
+              id="projectNote"
+              type="textarea"
+              innerRef={details}
+            />
+          </FormGroup>
 
-        <FormGroup>
-          <Button
-            onClick={(e) => {
-              e.preventDefault();
-              submitNewProjectForm();
-
-            }}>
-            Save</Button>
-        </FormGroup>
-      </Form>
+          <FormGroup>
+            <div className="newProjectSaveBtn">
+            <Button style={styles.saveButton}
+              onClick={(e) => {
+                e.preventDefault();
+                submitNewProjectForm();
+              }}>
+              Save</Button>
+              </div>
+          </FormGroup>
+        </Form>
+      </div>
     </>
   );
 }

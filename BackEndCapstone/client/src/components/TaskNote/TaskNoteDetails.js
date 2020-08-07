@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState, useRef } from "react";
+import styles from "../Styles";
 import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody, Card } from "reactstrap";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { TaskNoteContext } from "../../providers/TaskNoteProvider";
@@ -52,8 +53,10 @@ const TaskNoteDetails = () => {
           <h3>{taskNote.title}</h3>
           <div>{taskNote.content}</div>
         </div>
-        <Button onClick={toggleNoteEdit}>Edit</Button>
-        <Button onClick={toggleNoteDelete}>Delete</Button>
+        <Button style={styles.editTaskButton} onClick={toggleNoteEdit}>Edit</Button>
+        <Button style={styles.deleteTaskButton} onClick={toggleNoteDelete}>Delete</Button>
+        <Button style={styles.returnToProjectButton} onMouseUp={() => (history.goBack())}>Return to Task</Button>
+
       </section>
 
       {/* This modal edits a task note */}
