@@ -1,4 +1,5 @@
-import React, { useEffect, useContext, useState, useRef } from "react";
+import React, { useEffect, useContext, useState, useRef} from "react";
+import styles from "../Styles";
 import { Button, Modal, ModalHeader, FormGroup, Label, Input, ModalBody, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from "reactstrap";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { ProjectContext } from "../../providers/ProjectProvider";
@@ -21,7 +22,6 @@ const ProjectDetails = () => {
     const [taskPriority, setTaskPriority] = useState();
     const [taskTitle, setTaskTitle] = useState();
     const [selectedCategory, setSelectedCategory] = useState("Category");
-    const [ formatDate, setFormatDate ] = useState("")
     const history = useHistory();
     const projectName = useRef();
     const projectNote = useRef();
@@ -52,9 +52,7 @@ const ProjectDetails = () => {
     const toggleTaskCategoryDropdown = () => {
         setTaskCategoryDropdown(!taskCategoryDropdown);
     };
-    
-    
-    
+
     const submitEditProjectForm = () => {
         updateProject({
             id: project.id,
@@ -85,7 +83,9 @@ const ProjectDetails = () => {
                 (getTasksByProjectId(id)),
                 toggleAddTask());
             }
-        }
+        };
+
+
         
     const formattedDate = (date) => {
         if(date === undefined) {
@@ -99,26 +99,30 @@ const ProjectDetails = () => {
 
     return (
         <>
-            <section className="container">
-                <div className="projectContainer">
+            <section className="projectContainer">
+                <div className="projectDetailsContainer">
                     <h3>Title: {project.name}</h3>
                     <div>Notes: {project.projectNote}</div>
                     <div>Date Added: {formattedDate(project.createdDate)} </div>
                        
-                    <div>
+                    <div className="tasksContainer">
                         {(tasks.length > 0) &&
                             tasks.map((task) => (
-                                <div>
-                                    <Button color="info" tag={Link} to={`/taskDetails/${task.id}`} key={task.id} size="md">{task.taskTitle}</Button>
+                                <div className="task">
+                                    <Button style={styles.existingTasksButton} tag={Link} to={`/taskDetails/${task.id}`} key={task.id} size="md">{task.taskTitle}</Button>
                                 </div>
                             ))}
                     </div>
                 </div>
 
                 <div className="buttonContainer">
-                    <Button className="react-button" onClick={toggleAddTask}>Add A New Task</Button>
-                    <Button onClick={toggleEdit}>Edit</Button>
-                    <Button onClick={toggleDelete}>Delete</Button>
+                    <div>
+                    <Button style={styles.addNewTaskButton} onClick={toggleAddTask}>Add A New Task</Button>
+                    </div>
+                    <div>
+                    <Button style={styles.editTaskButton} onClick={toggleEdit}>Edit</Button>
+                    <Button style={styles.deleteTaskButton} onClick={toggleDelete}>Delete</Button>
+                    </div>
                 </div>
             </section>
 
@@ -136,7 +140,7 @@ const ProjectDetails = () => {
 
                         />
                         <ButtonDropdown isOpen={taskCategoryDropdown} toggle={toggleTaskCategoryDropdown}>
-                            <DropdownToggle caret>{selectedCategory}</DropdownToggle>
+                            <DropdownToggle style={styles.editTaskButton} caret>{selectedCategory}</DropdownToggle>
                             <DropdownMenu>
                                 {taskCategories.map(cat =>
                                     <DropdownItem 
@@ -155,6 +159,7 @@ const ProjectDetails = () => {
                                 <FormGroup check>
                                     <Label check>
                                         <Input
+                                            style={styles.criticalInput}
                                             type="radio"
                                             id="taskPriority"
                                             name="taskPriority"
@@ -226,7 +231,7 @@ const ProjectDetails = () => {
                             <Button
                                 type="submit"
                                 size="sm"
-                                color="info"
+                                style={styles.addNewTaskButton}
                                 onClick={(e) => {
                                     e.preventDefault();
                                     submitNewTaskForm()

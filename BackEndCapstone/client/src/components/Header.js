@@ -40,11 +40,6 @@ export default function Header() {
             {!isLoggedIn && (
               <>
               <NavItem>Please sign in</NavItem>
-                {/* <NavItem>
-                  <NavLink tag={RRNavLink} to="/login">
-                    Login
-                  </NavLink>
-                </NavItem> */}
               </>
             )}
           </Nav>

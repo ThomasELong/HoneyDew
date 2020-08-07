@@ -6,7 +6,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+* {
+  background-color: 	#f3f4f8;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -41,30 +43,28 @@ code {
   align-items: center;
   font-family: 'Mulish', sans-serif;
   margin-top: 10%;
+  width: 100%;
 }
 
 .addNewProjectLink {
   width: 100%;
   height: 6em;
-  background-color: rgb(71, 136, 71);
   color: black;
 }
 
 .existingProjectsContainer {
 display: flex;
 flex-flow: wrap;
-justify-content: center;
+justify-content: space-evenly;
 width: 90%;
+height: 75%;
 margin-top: 15%;
 }
 
-.existingProjects {
-  border: 1px solid black;
-  display: flex;
-  width: 45%;
-  justify-content: center;
-  margin: .5em
+.existingProject {
+  margin-top: .75em;
 }
+
 
 .form-group {
   display: flex;
@@ -72,7 +72,41 @@ margin-top: 15%;
   margin: 1em;
 }
 
-.loginPage {
+.newProjectContainer {
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+}
+
+.newProjectSaveBtn {
+  margin-top: 2em;
+}
+
+.projectContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Mulish', sans-serif;
+  margin-top: 3em;
+  width: 100%;
+}
+
+.projectDetailsContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 90%;
+}
+
+.tasksContainer {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  margin-top: 5%;
+  }
+
+.task {
+  margin: .5em
 }
 
 .authButton {
@@ -116,15 +150,11 @@ margin-top: 15%;
 
 }
 
-.projectContainer {
-  padding: 3em 6em 3em 6em;
-  border: 1px solid black;
-  border-radius: 10%;
-  background-color: rgb(241, 215, 215);
-}
+
 
 .buttonContainer {
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   width: 90%;  
   margin: 5em;
