@@ -1,29 +1,26 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useContext, useRef } from "react";
 import styles from "../Styles";
-import { useHistory, useParams, Link } from "react-router-dom";
-import { Button, Form, ButtonToggle, FormGroup, Modal, ModalHeader, ModalBody, Input, Label, ButtonDropdown, DropdownToggle, DropdownItem, DropdownMenu } from "reactstrap";
+import { useNavigate } from "react-router-dom";
+import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 import { ProjectContext } from "../../providers/ProjectProvider";
 import { TaskContext } from "../../providers/TaskProvider";
 import { TaskCategoryContext } from "../../providers/TaskCategoryProvider";
 
 const NewProjectForm = () => {
-  const history = useHistory();
+  const history = useNavigate();
   const { addProject } = useContext(ProjectContext);
 
   const name = useRef();
   const details = useRef();
 
-
-
   const userProfile = JSON.parse(sessionStorage.getItem("userProfile"));
-
 
   const submitNewProjectForm = () => {
 
-    if (!details) {
+    if (!name) {
+      window.alert("Please add a name for your project");
+    } else if (!details) {
       window.alert("Please add some details for your project");
-    } else if (!name) {
-      window.alert("Please add the name of your project");
     } else {
       const NewProject = {
         name: name.current.value,
@@ -32,7 +29,7 @@ const NewProjectForm = () => {
         createdDate: new Date()
       };
       addProject(NewProject)
-      history.push(`/`)
+      history(`/`)
 
     }
   }
@@ -64,13 +61,13 @@ const NewProjectForm = () => {
 
           <FormGroup>
             <div className="newProjectSaveBtn">
-            <Button style={styles.saveButton}
-              onClick={(e) => {
-                e.preventDefault();
-                submitNewProjectForm();
-              }}>
-              Save</Button>
-              </div>
+              <Button style={styles.saveButton}
+                onClick={(e) => {
+                  e.preventDefault();
+                  submitNewProjectForm();
+                }}>
+                Save</Button>
+            </div>
           </FormGroup>
         </Form>
       </div>

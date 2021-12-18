@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState, useRef } from "react";
 import styles from "../Styles";
-import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody, Card } from "reactstrap";
-import { useParams, useHistory, Link } from "react-router-dom";
+import { Button,  Modal, ModalBody } from "reactstrap";
+import { useParams, useNavigate } from "react-router-dom";
 import { TaskNoteContext } from "../../providers/TaskNoteProvider";
 
 
@@ -17,7 +17,7 @@ const TaskNoteDetails = () => {
   const noteTitle = useRef()
   const noteContent = useRef()
 
-  const history = useHistory();
+  const history = useNavigate();
 
   useEffect(() => {
     getTaskNote(id)
@@ -42,7 +42,7 @@ const TaskNoteDetails = () => {
         content: noteContent.current.value,
         taskId: taskId,
         createdDate: taskNote.createdDate
-      }).then(() => history.push(`/taskDetails/${taskId}`));
+      }).then(() => history(`/taskDetails/${taskId}`));
     }
   
 
@@ -114,7 +114,7 @@ const TaskNoteDetails = () => {
                 onClick={(e) => {
                   e.preventDefault();
                   deleteTaskNote(taskNote.id)
-                    .then(() => history.push(`/taskDetails/${taskId}`))
+                    .then(() => history(`/taskDetails/${taskId}`))
                 }}
                 className="btn mt-4"
               >

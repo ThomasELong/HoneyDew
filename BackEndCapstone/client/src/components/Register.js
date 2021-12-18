@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
 export default function Register() {
-  const history = useHistory();
+  const history = useNavigate();
   const { register } = useContext(UserProfileContext);
 
   const [firstname, setFirstName] = useState();
@@ -20,7 +20,7 @@ export default function Register() {
     } else {
       const userProfile = { firstname, lastname, email };
       register(userProfile, password)
-        .then(() => history.push("/"));
+        .then(() => history("/"));
     }
   };
 
@@ -29,11 +29,11 @@ export default function Register() {
       <fieldset>
         <FormGroup>
           <Label htmlFor="name">First Name</Label>
-          <Input id="name" type="text" onChange={e => setFirstName(e.target.value)} />
+          <Input id="firstname" type="text" onChange={e => setFirstName(e.target.value)} />
         </FormGroup>
         <FormGroup>
           <Label htmlFor="name">Last Name</Label>
-          <Input id="name" type="text" onChange={e => setLastName(e.target.value)} />
+          <Input id="lastname" type="text" onChange={e => setLastName(e.target.value)} />
         </FormGroup>
         <FormGroup>
           <Label for="email">Email</Label>

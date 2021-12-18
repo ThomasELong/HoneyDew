@@ -3,7 +3,7 @@ const styles = {
         backgroundColor: '#9cb0a3',
         borderColor: '#4e5851',
         color: '#ffffff',
-        width: '100%',
+        width: '50%',
         height: '4em',
         fontSize: '25pt'
     },

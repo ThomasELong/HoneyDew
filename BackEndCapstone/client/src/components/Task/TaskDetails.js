@@ -1,7 +1,7 @@
-import React, { useEffect, useContext, useState, useRef, Option, Selection } from "react";
+import React, { useEffect, useContext, useState, useRef } from "react";
 import styles from "../Styles";
-import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody, Card, CardTitle, CardText, CardGroup } from "reactstrap";
-import { useParams, useHistory, Link } from "react-router-dom";
+import { Button, CardBody, Form, Modal, ModalBody, Card, CardTitle, CardText, CardGroup } from "reactstrap";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { TaskContext } from "../../providers/TaskProvider"
 import { TaskNoteContext } from "../../providers/TaskNoteProvider";
 
@@ -18,7 +18,7 @@ const TaskDetails = () => {
   const [taskNoteContent, setTaskNoteContent] = useState();
   const [task, setTask] = useState({})
 
-  const history = useHistory();
+  const history = useNavigate();
   const updatedTaskTitle = useRef();
   const updatedTaskPriority = useRef();
 
@@ -45,10 +45,11 @@ const TaskDetails = () => {
   const toggleTaskComplete = () => {
     task.taskComplete = !task.taskComplete;
     updateTask(task)
-    .then((res) => {
-      (setTask(res))})
-    .then(() => (window.location.reload()))
-      
+      .then((res) => {
+        (setTask(res))
+      })
+      .then(() => (window.location.reload()))
+
   };
   useEffect(() => {
     getTask(id)
@@ -69,7 +70,7 @@ const TaskDetails = () => {
         taskComplete: task.taskComplete,
         taskCategoryId: task.taskCategoryId,
         projectId: task.projectId
-      }).then(() => history.push(`/project/${task.projectId}`));
+      }).then(() => history(`/project/${task.projectId}`));
     }
   };
 
@@ -183,7 +184,7 @@ const TaskDetails = () => {
                   className="btn mt-4"
                 >
                   Save
-              </Button>
+                </Button>
               </div>
             </div>
           </Form>
@@ -203,7 +204,7 @@ const TaskDetails = () => {
                 onClick={(e) => {
                   e.preventDefault();
                   deleteTask(task.id)
-                    .then(() => history.push(`/project/${projectId}`))
+                    .then(() => history(`/project/${projectId}`))
                 }}
               >
                 Yes
@@ -254,7 +255,7 @@ const TaskDetails = () => {
                 className="btn mt-4"
               >
                 Save
-                            </Button>
+              </Button>
             </div>
           </div>
         </ModalBody>

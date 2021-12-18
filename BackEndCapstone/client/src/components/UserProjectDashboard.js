@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react"
-import { Button, CardBody, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Toast, ToastBody, ToastHeader, Modal, ModalHeader, ModalBody, Card, CardTitle, CardText, CardGroup } from "reactstrap";
+import { Button } from "reactstrap";
 import styles from "./Styles";
 import { ProjectContext } from "../providers/ProjectProvider";
 import { Link } from "react-router-dom";
@@ -9,8 +9,8 @@ const UserDashboard = () => {
 
     useEffect(() => {
         getProjectsByUser();
-      }, []);
-
+      }, [])
+      
     return (
         <>
             <section className="container">
@@ -35,6 +35,7 @@ const UserDashboard = () => {
             </section>
         </>
     )
+    
 }
 
 export default UserDashboard

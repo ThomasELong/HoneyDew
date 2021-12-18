@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState, useRef } from "react";
 import styles from "../Styles";
 import { Button, Modal, ModalHeader, FormGroup, Label, Input, ModalBody, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from "reactstrap";
-import { useParams, useHistory, Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { ProjectContext } from "../../providers/ProjectProvider";
 import { TaskContext } from "../../providers/TaskProvider"
 import { TaskCategoryContext } from "../../providers/TaskCategoryProvider";
@@ -22,7 +22,7 @@ const ProjectDetails = () => {
     const [taskPriority, setTaskPriority] = useState();
     const [taskTitle, setTaskTitle] = useState();
     const [selectedCategory, setSelectedCategory] = useState("Category");
-    const history = useHistory();
+    const history = useNavigate();
     const projectName = useRef();
     const projectNote = useRef();
 
@@ -237,7 +237,7 @@ const ProjectDetails = () => {
                                     e.preventDefault();
                                     submitNewTaskForm()
                                     setSelectedCategory("Category")
-                                    history.push(`/project/${id}`)
+                                    history(`/project/${id}`)
                                 }}
                                 className="btn mt-4"
                             >
@@ -301,7 +301,7 @@ const ProjectDetails = () => {
                                         .then(() => {
                                             toggleDelete()
                                         })
-                                        .then(() => history.push(`/`))
+                                        .then(() => history(`/`))
                                 }}
                                 
                             >

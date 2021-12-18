@@ -1,31 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\GC Local DHCP\\workspace\\csharp\\Capstone\\BackEndCapstone\\BackEndCapstone\\BackEndCapstone.csproj": {}
+    "C:\\Users\\thoma\\workspace\\HoneyDew\\BackEndCapstone\\BackEndCapstone.csproj": {}
   },
   "projects": {
-    "C:\\Users\\GC Local DHCP\\workspace\\csharp\\Capstone\\BackEndCapstone\\BackEndCapstone\\BackEndCapstone.csproj": {
+    "C:\\Users\\thoma\\workspace\\HoneyDew\\BackEndCapstone\\BackEndCapstone.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\GC Local DHCP\\workspace\\csharp\\Capstone\\BackEndCapstone\\BackEndCapstone\\BackEndCapstone.csproj",
+        "projectUniqueName": "C:\\Users\\thoma\\workspace\\HoneyDew\\BackEndCapstone\\BackEndCapstone.csproj",
         "projectName": "BackEndCapstone",
-        "projectPath": "C:\\Users\\GC Local DHCP\\workspace\\csharp\\Capstone\\BackEndCapstone\\BackEndCapstone\\BackEndCapstone.csproj",
-        "packagesPath": "C:\\Users\\GC Local DHCP\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\GC Local DHCP\\workspace\\csharp\\Capstone\\BackEndCapstone\\BackEndCapstone\\obj\\",
+        "projectPath": "C:\\Users\\thoma\\workspace\\HoneyDew\\BackEndCapstone\\BackEndCapstone.csproj",
+        "packagesPath": "C:\\Users\\thoma\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\thoma\\workspace\\HoneyDew\\BackEndCapstone\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\GC Local DHCP\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\thoma\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "netcoreapp3.1"
+          "net6.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netcoreapp3.1": {
+          "net6.0": {
+            "targetAlias": "netcoreapp6.0",
             "projectReferences": {}
           }
         },
@@ -36,23 +37,38 @@
         }
       },
       "frameworks": {
-        "netcoreapp3.1": {
+        "net6.0": {
+          "targetAlias": "netcoreapp6.0",
           "dependencies": {
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
-              "version": "[3.1.5, )"
+              "version": "[6.0.0, )"
             },
             "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
               "target": "Package",
-              "version": "[3.1.5, )"
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
+              "target": "Package",
+              "version": "[6.0.0, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[3.1.5, )"
+              "version": "[6.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[3.1.5, )"
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.0, )"
             }
           },
           "imports": [
@@ -73,7 +89,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
