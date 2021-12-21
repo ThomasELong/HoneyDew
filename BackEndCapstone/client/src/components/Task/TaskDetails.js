@@ -129,13 +129,11 @@ const TaskDetails = () => {
             </CardGroup>
           </div>
         </div>
-        <div className="taskButtonContainer">
-          <div>
-            <Button style={styles.addNewTaskButton} onClick={toggleAddTaskNoteModal}>Add A New Task Note</Button>
-            <Button style={styles.editTaskButton} onClick={toggleEdit}>Edit</Button>
-            <Button style={styles.deleteTaskButton} onClick={toggleDelete}>Delete</Button>
+          <div class="row text-center">
+            <button class="col-lg-4 text-center" onClick={toggleAddTaskNoteModal}>Add</button>
+            <button class="col-lg-4 text-center" onClick={toggleEdit}>Edit</button>
+            <button class="col-lg-4 text-center" onClick={toggleDelete}>Delete</button>
           </div>
-        </div>
       </section>
 
 

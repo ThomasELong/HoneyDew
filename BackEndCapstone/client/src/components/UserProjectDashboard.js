@@ -5,37 +5,40 @@ import { ProjectContext } from "../providers/ProjectProvider";
 import { Link } from "react-router-dom";
 
 const UserDashboard = () => {
-    const { projects, getProjectsByUser} = useContext(ProjectContext);
+    const { projects, getProjectsByUser } = useContext(ProjectContext);
 
     useEffect(() => {
         getProjectsByUser();
-      }, [])
-      
+    }, [])
+
     return (
         <>
             <section className="container">
-                <div className="addNewProjectLink">
-                    <Button tag={Link} style={styles.addProjectButton} size="lg" to="/newProjectForm">Add New Project</Button>
-                </div>
                 <div className="existingProjectsContainer">
-                   { (projects.length > 0 ) &&
+                    {(projects.length > 0) &&
                         projects.map((project) => (
                             <div className="existingProject">
-                            <Button style={styles.existingProjectsButton} tag={Link}  
-                            key={project.id} 
-                            to={`/project/${project.id}`}> 
-                            {project.name}
-                            </Button>
+                                <Link to={`/project/${project.id}`}>
+                                    <button class="btn btn-primary"
+                                        key={project.id} >
+                                        {project.name}
+                                    </button>
+                                </Link>
                             </div>
                         ))
-                        }    
-                    
+                    }
+
                 </div>
-                
+                <div class="">
+                    <Link to={"/newProjectForm"}>
+                    <button class="btn btn-block" size="md">Add New Project</button>
+                    </Link>
+                </div>
+
             </section>
         </>
     )
-    
+
 }
 
 export default UserDashboard

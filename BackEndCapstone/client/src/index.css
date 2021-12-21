@@ -100,8 +100,8 @@ margin-top: 15%;
 
 .tasksContainer {
   display: flex;
-  flex-flow: row wrap;
-  justify-content: space-evenly;
+  flex-flow: column wrap;
+  justify-content: center;
   margin-top: 5%;
   }
 
@@ -154,16 +154,14 @@ margin-top: 15%;
 
 .buttonContainer {
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 90%;  
-  margin: 5em;
+  justify-content: center;
+  width: 75%;  
 }
 
 .taskButtonContainer {
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  flex-direction: row;
+  justify-content: space-evenly;
   background-color: white;
   margin-top: 2em;
 

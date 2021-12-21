@@ -26,6 +26,17 @@ namespace BackEndCapstone.Repositories
             return _context.Task
                 .FirstOrDefault(t => t.id == id);
         }
+        public List<Task> GetTasksByUserProfileId(int id)
+        {
+            List<int> projects = _context.Project
+                .Where(p => p.userProfileId == id)
+                .Select(p => p.id)
+                .ToList();
+            
+            return _context.Task
+                .Where(t => projects.Contains(t.projectId))
+                .OrderByDescending(t => t.taskPriority).ToList();
+        }
 
         public List<Task> GetTasksByProject(int id)
         {

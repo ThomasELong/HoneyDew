@@ -28,6 +28,12 @@ namespace BackEndCapstone.Controllers
             _taskNoteRepository = new TaskNoteRepository(context);
         }
 
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+        }
+
         [HttpGet]
         public IActionResult Get()
         {
@@ -66,8 +72,19 @@ namespace BackEndCapstone.Controllers
             return Ok(tasks);
         }
 
-        [HttpPost]
+        [HttpGet("getbyuserprofileid")]
+        public IActionResult GetTasksByUserProfileId(int id)
+        {
+            var currentUser = GetCurrentUserProfile();
+            var tasks = _taskRepository.GetTasksByUserProfileId(currentUser.Id);
+            if (tasks == null)
+            {
+                return NotFound();
+            }
+            return Ok(tasks);
+        }
 
+        [HttpPost]
         public IActionResult Post(Task task)
         {
             _taskRepository.Add(task);

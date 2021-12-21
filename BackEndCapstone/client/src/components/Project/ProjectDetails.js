@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState, useRef } from "react";
 import styles from "../Styles";
-import { Button, Modal, ModalHeader, FormGroup, Label, Input, ModalBody, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from "reactstrap";
+import { Button, Modal, FormGroup, Label, Input, ModalBody, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from "reactstrap";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { ProjectContext } from "../../providers/ProjectProvider";
 import { TaskContext } from "../../providers/TaskProvider"
@@ -101,27 +101,31 @@ const ProjectDetails = () => {
         <>
             <section className="projectContainer">
                 <div className="projectDetailsContainer">
-                    <h3>Title: {project.name}</h3>
+                    <h3>{project.name}</h3>
                     <div>Notes: {project.projectNote}</div>
                     <div>Date Added: {formattedDate(project.createdDate)} </div>
 
-                    <div className="tasksContainer">
-                        {(tasks.length > 0) &&
-                            tasks.map((task) => (
-                                <div className="task">
-                                    <Button style={styles.existingTasksButton} tag={Link} to={`/taskDetails/${task.id}`} key={task.id} size="md">{task.taskTitle}</Button>
-                                </div>
-                            ))}
+                    <div className="tasksContainer text-center">
+                        <h4>Task List</h4>
+                        <div class="row">
+
+                            {(tasks.length > 0) &&
+                                tasks.map((task) => (
+                                    <div className="card well col-md-3">
+                                        <p>{task.taskTitle}</p>
+                                        <Button style={styles.existingTasksButton} tag={Link} to={`/taskDetails/${task.id}`} key={task.id} size="md">{task.taskTitle}</Button>
+                                    </div>
+                                ))}
+
+                        </div>
                     </div>
                 </div>
 
                 <div className="buttonContainer">
                     <div>
-                        <Button style={styles.addNewTaskButton} onClick={toggleAddTask}>Add A New Task</Button>
-                    </div>
-                    <div>
-                        <Button style={styles.editTaskButton} onClick={toggleEdit}>Edit</Button>
-                        <Button style={styles.deleteTaskButton} onClick={toggleDelete}>Delete</Button>
+                        <button onClick={toggleAddTask}>Add A New Task</button>
+                        <button onClick={toggleEdit}>Edit</button>
+                        <button onClick={toggleDelete}>Delete</button>
                     </div>
                 </div>
             </section>
@@ -294,7 +298,7 @@ const ProjectDetails = () => {
                         <h3>Are you sure you want to delete "{project.name}"?</h3>
                         <div className="">
                             <Button
-                            style={styles.yesDeleteButton}
+                                style={styles.yesDeleteButton}
                                 onClick={(e) => {
                                     e.preventDefault();
                                     deleteProject(project.id)
@@ -303,7 +307,7 @@ const ProjectDetails = () => {
                                         })
                                         .then(() => history(`/`))
                                 }}
-                                
+
                             >
                                 Yes
                             </Button>
@@ -313,7 +317,7 @@ const ProjectDetails = () => {
                                 onClick={toggleDelete}
                             >
                                 No
-              </Button>
+                            </Button>
                         </div>
                     </div>
                 </ModalBody>

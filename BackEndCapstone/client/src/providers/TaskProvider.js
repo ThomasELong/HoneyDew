@@ -25,27 +25,42 @@ export const TaskProvider = (props) => {
       if (id === null || id === "") {
         setTasks([])
       } else {
-      fetch(`${apiUrl}/getbyprojectid/${id}`, {
+        fetch(`${apiUrl}/getbyprojectid/${id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((res) => res.json())
+          .then((res) => setTasks(res))
+      }
+    }
+    )
+  };
+
+  const getTasksByCategoryId = (id) => {
+    return getToken().then((token) =>
+      fetch(`${apiUrl}/getbycategoryid/${id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then((resp) => resp.json())
+    );
+  };
+
+  const getTasksByUserProfileId = () => {
+    getToken().then((token) =>
+      fetch(`${apiUrl}/getbyuserprofileid`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-        .then((res) => res.json())
-        .then((res) => setTasks(res))
-    }}
-    )};
-
-    const getTasksByCategoryId = (id) => {
-      return getToken().then((token) =>
-        fetch(`${apiUrl}/getbycategoryid/${id}`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }).then((resp) => resp.json())
-      );
-    };
+        .then((resp) => resp.json())
+        .then(setTasks)
+    );
+  };
 
   const getAllTasks = () =>
     getToken().then((token) =>
@@ -80,9 +95,9 @@ export const TaskProvider = (props) => {
         },
         body: JSON.stringify(task),
       }).then((resp) => {
-          return resp})
+        return resp
+      })
     );
-  
 
   const deleteTask = (id) => {
     return getToken().then((token) =>
@@ -93,10 +108,10 @@ export const TaskProvider = (props) => {
           "Content-Type": "application/json"
         },
       }).then(getTasksByProjectId));
-    }
+  }
 
   return (
-    <TaskContext.Provider value={{ tasks, getTask, addTask, getAllTasks, getTasksByProjectId, getTasksByCategoryId, updateTask, deleteTask }}>
+    <TaskContext.Provider value={{ tasks, getTask, addTask, getAllTasks, getTasksByProjectId, getTasksByCategoryId, getTasksByUserProfileId, updateTask, deleteTask }}>
       {props.children}
     </TaskContext.Provider>
   );

@@ -1,14 +1,6 @@
 import React, { useState, useContext } from "react";
 import { NavLink as RRNavLink } from "react-router-dom";
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-} from "reactstrap";
+import { Navbar, NavbarBrand, Nav, NavItem } from "reactstrap";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
 export default function Header() {
@@ -20,29 +12,56 @@ export default function Header() {
     <div>
       <Navbar color="light" light expand="md">
         <NavbarBrand tag={RRNavLink} to="/">
-         HoneyDew
+          HoneyDew
         </NavbarBrand>
-          <Nav navbar>
-            {isLoggedIn && (
-              <>
-                <NavItem>
-                  <a
-                    aria-current="page"
-                    className="nav-link"
-                    style={{ cursor: "pointer" }}
-                    onClick={logout}
-                  >
-                    Logout
-                  </a>
-                </NavItem>
-              </>
-            )}
-            {!isLoggedIn && (
-              <>
+        <Nav navbar>
+          {isLoggedIn && (
+            <>
+              <NavItem tag={RRNavLink} to="/">
+              <a
+                  aria-current="page"
+                  className="nav-link"
+                  style={{ cursor: "pointer" }}
+                >
+                Project Dashboard
+                </a>
+              </NavItem>
+              <NavItem tag={RRNavLink} to="/taskList">
+              <a
+                  aria-current="page"
+                  className="nav-link"
+                  style={{ cursor: "pointer" }}
+                >
+                Tasks
+                </a>
+              </NavItem>
+              <NavItem tag={RRNavLink} to="/">
+              <a
+                  aria-current="page"
+                  className="nav-link"
+                  style={{ cursor: "pointer" }}
+                >
+                Shopping List
+                </a>
+              </NavItem>
+              <NavItem>
+                <a
+                  aria-current="page"
+                  className="nav-link"
+                  style={{ cursor: "pointer" }}
+                  onClick={logout}
+                >
+                  Logout
+                </a>
+              </NavItem>
+            </>
+          )}
+          {!isLoggedIn && (
+            <>
               <NavItem>Please sign in</NavItem>
-              </>
-            )}
-          </Nav>
+            </>
+          )}
+        </Nav>
       </Navbar>
     </div>
   );

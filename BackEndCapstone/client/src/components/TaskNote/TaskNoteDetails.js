@@ -7,12 +7,9 @@ import { TaskNoteContext } from "../../providers/TaskNoteProvider";
 
 const TaskNoteDetails = () => {
   const { getTaskNote, updateTaskNote, deleteTaskNote } = useContext(TaskNoteContext)
-  const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id;
   const { id } = useParams();
   const [noteEditModal, setNoteEditModal] = useState(false);
   const [noteDeleteModal, setNoteDeleteModal] = useState(false);
-
-  const [addTaskNoteModal, setAddTaskNoteModal] = useState(false);
   const [taskNote, setTaskNote] = useState({})
   const noteTitle = useRef()
   const noteContent = useRef()

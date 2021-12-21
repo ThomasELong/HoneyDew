@@ -9,6 +9,7 @@ import ProjectDetails from "./Project/ProjectDetails";
 import TaskDetails from "./Task/TaskDetails"
 import NewProjectForm from "./Project/NewProjectForm";
 import TaskNoteDetails from "./TaskNote/TaskNoteDetails";
+import TaskList from "./Task/TaskList";
 
 export default function ApplicationViews() {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -28,6 +29,8 @@ export default function ApplicationViews() {
         <Route path={`/taskDetails/:id`} exact element={isLoggedIn ? <TaskDetails /> : <Welcome />} />
 
         <Route path={`/taskNoteDetails/:id`} exact element={isLoggedIn ? <TaskNoteDetails /> : <Welcome />} />
+
+        <Route path={`/taskList`} exact element={isLoggedIn ? <TaskList /> : <Welcome />} />
 
         <Route path="/welcome" element={<Welcome />} />
 

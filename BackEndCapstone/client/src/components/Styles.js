@@ -24,7 +24,7 @@ const styles = {
         backgroundColor: '#9cb0a3',
         borderColor: '#596d5f',
         color: '#ffffff',
-        width: '100%',
+        width: '30%',
         fontSize: '20pt'
 
     },
@@ -32,7 +32,7 @@ const styles = {
         backgroundColor: '#8cb4d2',
         borderColor: '#447498',
         color: '#ffffff',
-        width: '100%',
+        width: '30%',
         fontSize: '20pt'
 
     },
@@ -40,7 +40,7 @@ const styles = {
         backgroundColor: '#f99797',
         borderColor: '#db6666',
         color: '#ffffff',
-        width: '100%',
+        width: '30%',
         fontSize: '20pt'
 
     },
